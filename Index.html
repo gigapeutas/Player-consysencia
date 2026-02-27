@@ -905,21 +905,92 @@
       $("#loginMsg").className = "msg";
     });
 
-    $("#btnLogin").addEventListener("click", () => {
-      const user = ($("#user").value || "").trim();
-      const pass = ($("#pass").value || "").trim();
-      if(!user || !pass){
-        $("#loginMsg").textContent = "Preencha usuário e senha.";
-        $("#loginMsg").className = "msg err";
-        return;
-      }
+    // =========================
+// SERVERS FAILOVER + LOGIN REAL
+// =========================
+// Ordem de tentativas (como você pediu):
+// 1) https://playtvstreaming.shop
+// 2) https://ph1233.uk
+// 3) http://playtvstreaming.shop
+// 4) http://ph1233.uk
+const SERVERS = [
+  "https://playtvstreaming.shop",
+  "https://ph1233.uk",
+  "http://playtvstreaming.shop",
+  "http://ph1233.uk"
+];
 
-      // UI-only: guarda sessão (depois você troca por API real)
-      setSession({ ok: true, user: "OK", at: Date.now() });
+/**
+ * Tenta autenticar no padrão IPTV Xtream Codes:
+ * GET {server}/player_api.php?username=...&password=...
+ * Retorna { success, server, data } quando ok.
+ */
+async function tryLoginOnServer(server, user, pass) {
+  const url =
+    `${server}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`;
 
-      // Próximo passo: perfis
-      showProfiles();
+  try {
+    const res = await fetch(url, {
+      method: "GET",
+      // Se o servidor não liberar CORS, o browser pode bloquear.
+      // Nesse caso, a solução é usar um backend/proxy (Netlify Function / API).
+      mode: "cors",
+      cache: "no-store",
+      credentials: "omit",
     });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const data = await res.json();
+
+    // Regra comum: user_info.auth == 1
+    if (data?.user_info && String(data.user_info.auth) === "1") {
+      return { success: true, server, data };
+    }
+
+    // Alguns painéis respondem com status diferente, então tratamos como inválido
+    throw new Error("AUTH_FAIL");
+  } catch (e) {
+    return { success: false, server, error: String(e?.message || e) };
+  }
+}
+
+$("#btnLogin").addEventListener("click", async () => {
+  const user = ($("#user").value || "").trim();
+  const pass = ($("#pass").value || "").trim();
+
+  if (!user || !pass) {
+    $("#loginMsg").textContent = "Preencha usuário e senha.";
+    $("#loginMsg").className = "msg err";
+    return;
+  }
+
+  $("#btnLogin").disabled = true;
+  $("#loginMsg").textContent = "Conectando...";
+  $("#loginMsg").className = "msg";
+
+  for (const server of SERVERS) {
+    $("#loginMsg").textContent = `Tentando servidor: ${server}`;
+
+    const r = await tryLoginOnServer(server, user, pass);
+
+    if (r.success) {
+      // Guarda sessão com o servidor que funcionou
+      setSession({ ok: true, user, server: r.server, at: Date.now(), raw: r.data });
+      $("#loginMsg").textContent = "Login realizado! Carregando perfis...";
+      $("#loginMsg").className = "msg";
+      $("#btnLogin").disabled = false;
+
+      showProfiles();
+      return;
+    }
+  }
+
+  $("#btnLogin").disabled = false;
+  $("#loginMsg").textContent =
+    "Não foi possível conectar a nenhum servidor. (Se aparecer erro de CORS, precisa de proxy/backend.)";
+  $("#loginMsg").className = "msg err";
+});
 
     $("#btnBackToLogin").addEventListener("click", () => {
       clearSession();
