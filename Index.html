@@ -1,224 +1,879 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consysencia VIP - Seu Acesso</title>
-    <style>
-        /* === TEMA CONSYSENCIA (Dark & Neon Green) === */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: #0d0d12; color: #ffffff; line-height: 1.6; padding-bottom: 50px; }
-        
-        /* Cabeçalho */
-        header {
-            background: rgba(13, 13, 18, 0.95);
-            padding: 20px 0;
-            text-align: center;
-            border-bottom: 1px solid #1a231a;
-            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .logo { font-size: 1.8rem; font-weight: 900; color: #00ff88; letter-spacing: 2px; }
-        .logo span { color: #ffffff; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ConsysenciaPlay • Catálogo</title>
 
-        /* Container Principal */
-        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-        
-        .boas-vindas { text-align: center; margin-bottom: 40px; }
-        .boas-vindas h1 { font-size: 2.2rem; margin-bottom: 10px; }
-        .boas-vindas p { color: #a0a0a0; font-size: 1.1rem; }
-        .destaque-verde { color: #00ff88; font-weight: bold; }
+  <style>
+    :root{
+      --bg:#07090b;
+      --card:rgba(10,14,18,.55);
+      --text:#f6f8fb;
+      --muted:rgba(246,248,251,.65);
 
-        /* Grid de Cartões */
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
+      --neon:#00ff88;
+      --neon2:#00d26a;
+      --danger:#ff3b58;
 
-        @media (max-width: 768px) {
-            .grid { grid-template-columns: 1fr; }
-        }
+      --r12:12px;
+      --r16:16px;
+      --r20:20px;
+      --shadow: 0 18px 55px rgba(0,0,0,.55);
+      --focus: 0 0 0 2px rgba(0,255,136,.75), 0 0 18px rgba(0,255,136,.35);
+      --max: 1180px;
+      --gap: 14px;
+    }
 
-        /* Estilo dos Cartões */
-        .card {
-            background-color: #14141c;
-            border: 1px solid #232336;
-            border-radius: 12px;
-            padding: 30px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: #00ff88;
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.1);
-        }
-        .card-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
-        .card-title { font-size: 1.3rem; margin-bottom: 20px; color: #ffffff; font-weight: 700; border-bottom: 1px solid #232336; padding-bottom: 10px;}
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(900px 420px at 25% -5%, rgba(0,255,136,.18), rgba(0,0,0,0) 60%),
+        radial-gradient(900px 420px at 85% 10%, rgba(0,210,255,.08), rgba(0,0,0,0) 55%),
+        linear-gradient(180deg, #06080a, #0b0f12);
+      color: var(--text);
+      overflow-x:hidden;
+    }
 
-        /* Campos de Copiar */
-        .dado-box {
-            background-color: #0a0a0e;
-            border: 1px solid #232336;
-            border-radius: 8px;
-            padding: 12px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .dado-label { font-size: 0.85rem; color: #888; display: block; margin-bottom: 4px; }
-        .dado-valor { font-size: 1.2rem; font-weight: bold; color: #fff; font-family: monospace; }
-        
-        .btn-copiar {
-            background-color: #232336;
-            color: #00ff88;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-        .btn-copiar:hover { background-color: #31314d; }
-        .btn-copiar:active { background-color: #00ff88; color: #000; }
+    header{
+      position: fixed;
+      top:0; left:0; right:0;
+      z-index: 1000;
+      padding: 12px 14px;
+      background: rgba(7,9,11,.70);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,255,136,.10);
+    }
+    .top{
+      max-width: var(--max);
+      margin: 0 auto;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+    .brand{
+      display:flex; align-items:center; gap: 10px;
+      min-width: 160px;
+    }
+    .mark{
+      width: 32px; height: 32px; border-radius: 10px;
+      background:
+        radial-gradient(16px 16px at 30% 30%, rgba(0,255,136,.9), rgba(0,255,136,0) 60%),
+        linear-gradient(135deg, rgba(0,255,136,.18), rgba(0,210,255,.10));
+      border: 1px solid rgba(0,255,136,.25);
+      box-shadow: 0 0 18px rgba(0,255,136,.18);
+    }
+    .logo{
+      font-weight: 950;
+      letter-spacing:.6px;
+      line-height:1;
+    }
+    .logo span{ color: var(--neon); text-shadow: 0 0 16px rgba(0,255,136,.25); }
+    .sub{ font-size:.76rem; color: var(--muted); margin-top: 2px; }
 
-        /* Botão Ação Principal */
-        .btn-play {
-            display: block;
-            width: 100%;
-            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-            color: #000;
-            text-align: center;
-            padding: 18px;
-            border-radius: 8px;
-            font-size: 1.2rem;
-            font-weight: 800;
-            text-decoration: none;
-            margin-top: 20px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
-        }
-        .btn-play:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 25px rgba(0, 255, 136, 0.5);
-        }
+    .search{
+      flex: 1;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(10,14,18,.55);
+      border: 1px solid rgba(0,255,136,.10);
+      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+      max-width: 580px;
+      margin-left: auto;
+    }
+    .search input{
+      width:100%;
+      border:0; outline:none;
+      background: transparent;
+      color: var(--text);
+      font-size: .98rem;
+    }
+    .search input::placeholder{ color: rgba(246,248,251,.45); }
 
-        /* Lista de Apps */
-        .app-list { list-style: none; }
-        .app-list li {
-            padding: 10px 0;
-            border-bottom: 1px dashed #232336;
-            color: #ccc;
-        }
-        .app-list li:last-child { border-bottom: none; }
-        .app-list strong { color: #fff; }
+    .cta{
+      display:flex; align-items:center; gap: 10px;
+      margin-left: auto;
+    }
+    .btn{
+      border: 1px solid rgba(0,255,136,.18);
+      background: linear-gradient(90deg, rgba(0,255,136,.92), rgba(0,210,106,.78));
+      color: #04110a;
+      padding: 10px 12px;
+      border-radius: 14px;
+      text-decoration:none;
+      font-weight: 950;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      cursor:pointer;
+      user-select:none;
+      box-shadow: 0 14px 35px rgba(0,0,0,.45), 0 0 18px rgba(0,255,136,.12);
+      white-space: nowrap;
+    }
+    .btnGhost{
+      border: 1px solid rgba(246,248,251,.14);
+      background: rgba(10,14,18,.55);
+      color: rgba(246,248,251,.90);
+      box-shadow: 0 14px 35px rgba(0,0,0,.35);
+    }
+    .btnDanger{
+      border: 1px solid rgba(255,59,88,.25);
+      background: linear-gradient(90deg, rgba(255,59,88,.85), rgba(255,59,88,.55));
+      color: #130406;
+      box-shadow: 0 14px 35px rgba(0,0,0,.45), 0 0 18px rgba(255,59,88,.12);
+    }
 
-        /* Validade */
-        .validade {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #888;
-        }
-    </style>
+    .btn:focus-visible{ outline:none; box-shadow: var(--focus); }
+    .spacer{ height: 72px; }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 14px 50px;
+    }
+
+    .tabs{
+      display:flex;
+      gap: 18px;
+      align-items:center;
+      padding: 10px 6px 14px;
+      overflow-x:auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tabs::-webkit-scrollbar{ display:none; }
+    .tab{
+      position: relative;
+      border:0;
+      background: transparent;
+      color: rgba(246,248,251,.70);
+      font-weight: 950;
+      font-size: 1.05rem;
+      padding: 10px 6px;
+      cursor:pointer;
+      white-space: nowrap;
+    }
+    .tab.active{
+      color: var(--neon);
+      text-shadow: 0 0 18px rgba(0,255,136,.22);
+    }
+    .tab.active::after{
+      content:"";
+      position:absolute;
+      left: 6px; right: 6px; bottom: 2px;
+      height: 3px;
+      border-radius: 999px;
+      background: var(--neon);
+      box-shadow: 0 0 16px rgba(0,255,136,.45);
+    }
+    .tab:focus-visible{ outline:none; box-shadow: var(--focus); border-radius: 10px; }
+
+    .hero{
+      border-radius: 24px;
+      overflow:hidden;
+      min-height: 52vh;
+      position: relative;
+      background: #0e1114;
+      border: 1px solid rgba(0,255,136,.10);
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+    .heroBg{
+      position:absolute; inset:0;
+      background-size: cover;
+      background-position: center top;
+      transform: scale(1.03);
+      filter: saturate(1.05) contrast(1.02);
+    }
+    .heroOverlay{
+      position:absolute; inset:0;
+      background:
+        radial-gradient(900px 540px at 20% 30%, rgba(0,255,136,.18), rgba(0,0,0,0) 60%),
+        linear-gradient(90deg, rgba(7,9,11,.92) 0%, rgba(7,9,11,.55) 55%, rgba(7,9,11,.20) 100%),
+        linear-gradient(180deg, rgba(7,9,11,.05) 0%, rgba(7,9,11,.74) 80%, rgba(7,9,11,.92) 100%);
+    }
+    .heroContent{
+      position: relative;
+      z-index: 2;
+      padding: 18px 18px 16px;
+      display:flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-height: 52vh;
+      max-width: 720px;
+      gap: 10px;
+    }
+    .badge{
+      width: fit-content;
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(10,14,18,.55);
+      border: 1px solid rgba(0,255,136,.16);
+      color: rgba(246,248,251,.92);
+      font-weight: 950;
+    }
+    .badge i{
+      width: 8px; height: 8px; border-radius: 999px;
+      background: var(--neon);
+      box-shadow: 0 0 18px rgba(0,255,136,.75);
+      display:inline-block;
+    }
+    .heroTitle{
+      font-size: clamp(1.8rem, 4.4vw, 3.2rem);
+      font-weight: 950;
+      line-height: 1.05;
+      text-shadow: 0 18px 60px rgba(0,0,0,.65);
+    }
+    .heroDesc{
+      color: rgba(246,248,251,.75);
+      font-size: 1.02rem;
+      line-height: 1.55;
+      max-width: 56ch;
+    }
+
+    .provider{
+      margin-top: 14px;
+      border-radius: 22px;
+      background: rgba(10,14,18,.40);
+      border: 1px solid rgba(0,255,136,.09);
+      box-shadow: 0 14px 45px rgba(0,0,0,.45);
+      overflow:hidden;
+    }
+    .providerTop{
+      padding: 14px 14px 10px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .providerTitle{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      font-weight: 950;
+      font-size: 1.15rem;
+    }
+    .providerTitle .dot{
+      width: 9px; height: 9px; border-radius: 999px;
+      background: var(--neon);
+      box-shadow: 0 0 18px rgba(0,255,136,.55);
+    }
+    .providerTitle .tag{
+      margin-left: 6px;
+      font-size: .78rem;
+      font-weight: 950;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(246,248,251,.08);
+      border: 1px solid rgba(246,248,251,.10);
+      color: rgba(246,248,251,.78);
+    }
+    .providerActions{
+      display:flex; align-items:center; gap:10px;
+    }
+    .linkAll{
+      border: 1px solid rgba(246,248,251,.10);
+      background: rgba(10,14,18,.55);
+      color: rgba(246,248,251,.85);
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-weight: 900;
+      text-decoration:none;
+      user-select:none;
+      white-space: nowrap;
+    }
+    .linkAll:focus-visible{ outline:none; box-shadow: var(--focus); }
+
+    .row{ padding: 8px 14px 14px; }
+    .rowHead{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap:10px;
+      padding: 10px 0 8px;
+    }
+    .rowName{ font-weight: 950; color: rgba(246,248,251,.92); }
+    .mini{ font-size: .82rem; color: rgba(246,248,251,.55); }
+
+    .posters{
+      display:flex;
+      gap: var(--gap);
+      overflow-x:auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 8px 0 6px;
+      scroll-behavior:smooth;
+    }
+    .posters::-webkit-scrollbar{ display:none; }
+
+    .card{
+      width: 160px;
+      min-width: 160px;
+      aspect-ratio: 2/3;
+      border-radius: 16px;
+      overflow:hidden;
+      border: 1px solid rgba(0,255,136,.12);
+      box-shadow: 0 12px 30px rgba(0,0,0,.55);
+      background: rgba(0,0,0,.35);
+      cursor:pointer;
+      position: relative;
+      transform: translateZ(0);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      outline:none;
+      flex: 0 0 auto;
+    }
+    .card:hover,
+    .card:focus-visible{
+      transform: scale(1.06) translateY(-6px);
+      border-color: rgba(0,255,136,.45);
+      box-shadow: 0 18px 50px rgba(0,0,0,.70), 0 0 26px rgba(0,255,136,.12);
+      z-index: 20;
+    }
+    .card:focus-visible{ box-shadow: var(--focus), 0 18px 50px rgba(0,0,0,.70); }
+
+    .card img{
+      width:100%; height:100%;
+      object-fit: cover;
+      display:block;
+      transform: scale(1.02);
+    }
+
+    .meta{
+      position:absolute;
+      left: 10px; right: 10px; bottom: 10px;
+      background: rgba(7,9,11,.65);
+      border: 1px solid rgba(246,248,251,.12);
+      border-radius: 14px;
+      padding: 10px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      opacity:0;
+      transform: translateY(8px);
+      transition: opacity .18s ease, transform .18s ease;
+      pointer-events:none;
+    }
+    .card:hover .meta,
+    .card:focus-visible .meta{ opacity:1; transform: translateY(0); }
+
+    .metaTitle{
+      font-weight: 950;
+      font-size: .88rem;
+      display:-webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow:hidden;
+    }
+    .metaSub{
+      margin-top: 6px;
+      font-size: .78rem;
+      color: rgba(246,248,251,.68);
+      display:flex;
+      align-items:center;
+      gap: 8px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(0,255,136,.14);
+      border: 1px solid rgba(0,255,136,.20);
+      font-weight: 950;
+      font-size: .74rem;
+      color: rgba(246,248,251,.92);
+      white-space: nowrap;
+    }
+
+    .skeleton{
+      background: rgba(246,248,251,.06);
+      border: 1px solid rgba(246,248,251,.08);
+      position: relative;
+      overflow:hidden;
+    }
+    .skeleton::after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.10) 50%, rgba(255,255,255,0) 100%);
+      transform: translateX(-60%);
+      animation: shimmer 1.15s infinite;
+    }
+    @keyframes shimmer{
+      0%{ transform: translateX(-60%); }
+      100%{ transform: translateX(60%); }
+    }
+
+    /* ===== PIN MODAL ===== */
+    .modalBack{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.65);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index: 2000;
+      padding: 18px;
+    }
+    .modal{
+      width: min(520px, 100%);
+      border-radius: 18px;
+      background: rgba(10,14,18,.86);
+      border: 1px solid rgba(0,255,136,.14);
+      box-shadow: 0 24px 80px rgba(0,0,0,.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 16px;
+    }
+    .modal h3{ font-size: 1.1rem; font-weight: 950; }
+    .modal p{ margin-top: 8px; color: rgba(246,248,251,.7); line-height: 1.45; }
+    .pinRow{
+      margin-top: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:center;
+    }
+    .pinRow input{
+      flex:1;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(246,248,251,.14);
+      background: rgba(7,9,11,.55);
+      color: var(--text);
+      outline:none;
+      font-size: 1.0rem;
+      letter-spacing: .18rem;
+      text-align: center;
+    }
+    .pinRow input:focus{ box-shadow: var(--focus); border-color: rgba(0,255,136,.35); }
+    .modalActions{
+      margin-top: 12px;
+      display:flex;
+      gap: 10px;
+      justify-content:flex-end;
+      flex-wrap: wrap;
+    }
+    .msg{
+      margin-top: 10px;
+      font-weight: 900;
+      color: rgba(246,248,251,.75);
+    }
+    .msg.err{ color: rgba(255,59,88,.95); }
+
+    @media (max-width: 860px){
+      .cta{ display:none; }
+      .search{ max-width: none; }
+      .card{ width: 135px; min-width: 135px; border-radius: 14px; }
+      .hero{ min-height: 46vh; }
+      .heroContent{ min-height: 46vh; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{ scroll-behavior:auto !important; }
+      .skeleton::after{ animation:none; }
+    }
+  </style>
 </head>
+
 <body>
-
-    <header>
-        <div class="logo">CONSYSENCIA<span>VIP</span></div>
-    </header>
-
-    <div class="container">
-        <div class="boas-vindas">
-            <h1>Acesso Liberado! 🚀</h1>
-            <p>Seu plano está ativo. Siga as instruções abaixo para começar a assistir.</p>
+  <header>
+    <div class="top">
+      <div class="brand">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <div class="logo">CONSYSENCIA<span>PLAY</span></div>
+          <div class="sub">Organização UniTV • Premium</div>
         </div>
+      </div>
 
-        <div class="grid">
-            
-            <div class="card">
-                <span class="card-icon">🔑</span>
-                <h2 class="card-title">1. Seus Dados de Acesso</h2>
-                <p style="color: #a0a0a0; margin-bottom: 20px; font-size: 0.9rem;">Use estes dados para entrar no navegador ou nos aplicativos.</p>
+      <div class="search" role="search" aria-label="Buscar">
+        <span style="opacity:.85">🔎</span>
+        <input id="q" type="text" placeholder="Pesquisar pelo título..." autocomplete="off" />
+      </div>
 
-                <div class="dado-box">
-                    <div>
-                        <span class="dado-label">USUÁRIO</span>
-                        <span class="dado-valor" id="userTxt">551541775</span>
-                    </div>
-                    <button class="btn-copiar" onclick="copiarTexto('userTxt')">Copiar</button>
-                </div>
+      <div class="cta">
+        <a id="btnAssinar" class="btn" href="#" rel="nofollow">▶ Assinar Premium</a>
+        <button id="btnAdult" class="btn btnDanger" type="button">🔒 Zona 18+</button>
+      </div>
+    </div>
+  </header>
 
-                <div class="dado-box">
-                    <div>
-                        <span class="dado-label">SENHA</span>
-                        <span class="dado-valor" id="passTxt">395673983</span>
-                    </div>
-                    <button class="btn-copiar" onclick="copiarTexto('passTxt')">Copiar</button>
-                </div>
+  <div class="spacer"></div>
 
-                <div class="validade">
-                    Válido até: <span class="destaque-verde">27/02/2026</span>
-                </div>
-            </div>
+  <div class="wrap">
 
-            <div class="card" style="border-color: #00ff88; box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);">
-                <span class="card-icon">🌐</span>
-                <h2 class="card-title">2. Assistir no Navegador / iPhone</h2>
-                <p style="color: #a0a0a0; margin-bottom: 20px;">Não precisa instalar nada. Ideal para <strong>iPhone (iOS)</strong>, Computador ou Navegador de Smart TV.</p>
-                
-                <ul style="color: #ccc; margin-left: 20px; margin-bottom: 25px;">
-                    <li>1. Clique no botão verde abaixo.</li>
-                    <li>2. Cole seu <strong>Usuário</strong> e <strong>Senha</strong>.</li>
-                    <li>3. Divirta-se!</li>
-                </ul>
-
-                <a href="http://conectstar.webplayer.one/" target="_blank" class="btn-play">▶ ACESSAR WEBPLAYER</a>
-            </div>
-
-            <div class="card" style="grid-column: 1 / -1;">
-                <span class="card-icon">📺</span>
-                <h2 class="card-title">3. Assistir na TV Smart ou TV Box</h2>
-                
-                <div class="grid" style="gap: 40px; margin-top: 20px;">
-                    <div>
-                        <h3 style="color: #00ff88; margin-bottom: 10px;">Para Smart TVs (Samsung, LG, Roku)</h3>
-                        <p style="color: #a0a0a0; margin-bottom: 15px;">Baixe um destes aplicativos na loja da sua TV e preencha com seus dados:</p>
-                        <ul class="app-list">
-                            <li>🔥 <strong>IPTV Smarters Pro</strong><br>URL: <span style="font-family: monospace;">http://playtvstreaming.shop</span></li>
-                            <li>📺 <strong>XCIPTV Player</strong><br>URL: <span style="font-family: monospace;">http://playtvstreaming.shop</span></li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 style="color: #00ff88; margin-bottom: 10px;">Para TV Box (Android)</h3>
-                        <p style="color: #a0a0a0; margin-bottom: 15px;">Instale o nosso aplicativo oficial usando o aplicativo "Downloader":</p>
-                        <div class="dado-box">
-                            <div>
-                                <span class="dado-label">CÓDIGO DOWNLOADER (PlayTv 4K)</span>
-                                <span class="dado-valor">4029065</span>
-                            </div>
-                        </div>
-                        <p style="font-size: 0.85rem; color: #888;">Para instalar: Abra o app Downloader na sua TV Box, digite o código acima e clique em Go.</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+    <div class="tabs" role="tablist" aria-label="Navegação">
+      <button class="tab active" data-tab="reco" role="tab" aria-selected="true">Recomendações</button>
+      <button class="tab" data-tab="filmes" role="tab" aria-selected="false">Filmes</button>
+      <button class="tab" data-tab="series" role="tab" aria-selected="false">Séries</button>
+      <button class="tab" data-tab="familia" role="tab" aria-selected="false">Família</button>
     </div>
 
-    <script>
-        function copiarTexto(id) {
-            const texto = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(texto).then(() => {
-                alert("Copiado com sucesso: " + texto);
-            }).catch(err => {
-                console.error('Erro ao copiar', err);
-            });
+    <section class="hero" aria-label="Destaque">
+      <div id="heroBg" class="heroBg"></div>
+      <div class="heroOverlay" aria-hidden="true"></div>
+      <div class="heroContent">
+        <div class="badge"><i></i> CONSYSENCIA • PREMIUM EXPERIENCE</div>
+        <h1 id="banner-title" class="heroTitle">Carregando...</h1>
+        <p id="banner-desc" class="heroDesc">Catálogo demonstrativo (TMDB) com layout UniTV. Clique para assinar e ativar.</p>
+      </div>
+    </section>
+
+    <!-- Providers -->
+    <div id="providers"></div>
+
+    <!-- Adult zone (locked) -->
+    <section class="provider" id="adult-zone" aria-label="Zona 18+" style="display:none; border-color: rgba(255,59,88,.20);">
+      <div class="providerTop">
+        <div class="providerTitle">
+          <span class="dot" style="background: var(--danger); box-shadow: 0 0 18px rgba(255,59,88,.55);"></span>
+          Zona 18+ <span class="tag">Restrito</span>
+        </div>
+        <div class="providerActions">
+          <a class="linkAll" href="#" id="adult-all" rel="nofollow">Ver todos</a>
+        </div>
+      </div>
+
+      <!-- Conteúdo neutro (apenas demonstração de área restrita) -->
+      <div class="row">
+        <div class="rowHead">
+          <div>
+            <div class="rowName">Conteúdo Restrito</div>
+            <div class="mini">Seção protegida por PIN (controle parental)</div>
+          </div>
+        </div>
+        <div id="adult-row" class="posters"></div>
+      </div>
+    </section>
+
+    <div style="margin-top:16px; color:rgba(246,248,251,.55); text-align:center;">
+      CONSYSENCIA<span style="color:var(--neon); font-weight:950;">PLAY</span> • Layout UniTV • TMDB Demo
+    </div>
+  </div>
+
+  <!-- PIN Modal -->
+  <div id="pinBack" class="modalBack" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
+    <div class="modal">
+      <h3 id="pinTitle">🔒 Acesso restrito</h3>
+      <p>Digite o PIN para liberar a <strong>Zona 18+</strong>. (Sugestão: troque o PIN depois. 0000 é fraco.)</p>
+
+      <div class="pinRow">
+        <input id="pinInput" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" />
+      </div>
+
+      <div id="pinMsg" class="msg"></div>
+
+      <div class="modalActions">
+        <button id="pinCancel" class="btn btnGhost" type="button">Cancelar</button>
+        <button id="pinOk" class="btn btnDanger" type="button">Liberar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ========= CONFIG =========
+    const API_KEY = '7776b6307d414481ba1795a72e5db0d2';
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const IMG_URL = 'https://image.tmdb.org/t/p/w500';
+    const BANNER_IMG_URL = 'https://image.tmdb.org/t/p/original';
+    const LINK_VENDA = 'https://consysencia.com/product/uni-tv--mobile';
+
+    // PIN (padrão conforme pedido)
+    const ADULT_PIN = '0000';
+    const ADULT_FLAG_KEY = 'consysencia_adult_unlocked'; // sessionStorage
+
+    // CTA
+    document.getElementById('btnAssinar').href = LINK_VENDA;
+    document.getElementById('adult-all').href = LINK_VENDA;
+
+    // ========= HELPERS =========
+    const clampText = (txt, n=165) => (txt && txt.length > n ? (txt.slice(0,n).trim() + '…') : (txt || ''));
+    const safeTitle = (it) => (it && (it.title || it.name)) ? (it.title || it.name) : 'Título';
+    const vote = (it) => (it && typeof it.vote_average === 'number' && it.vote_average > 0) ? (Math.round(it.vote_average*10)/10).toFixed(1) : null;
+
+    function makeCard(it){
+      const b = document.createElement('button');
+      b.className = 'card';
+      b.type = 'button';
+      b.setAttribute('aria-label', safeTitle(it));
+      b.title = safeTitle(it);
+      b.addEventListener('click', () => window.location.href = LINK_VENDA);
+
+      const img = document.createElement('img');
+      img.loading = 'lazy';
+      img.alt = safeTitle(it);
+      img.src = it.poster_path ? `${IMG_URL}${it.poster_path}` : '';
+      b.appendChild(img);
+
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+
+      const t = document.createElement('div');
+      t.className = 'metaTitle';
+      t.textContent = safeTitle(it);
+
+      const sub = document.createElement('div');
+      sub.className = 'metaSub';
+
+      const pill = document.createElement('span');
+      pill.className = 'pill';
+      pill.textContent = vote(it) ? `★ ${vote(it)}` : 'Premium';
+
+      const hint = document.createElement('span');
+      hint.textContent = 'Clique para assinar';
+
+      sub.appendChild(pill);
+      sub.appendChild(hint);
+
+      meta.appendChild(t);
+      meta.appendChild(sub);
+
+      b.appendChild(meta);
+      return b;
+    }
+
+    function renderSkeleton(container, count=10){
+      container.innerHTML = '';
+      for(let i=0;i<count;i++){
+        const s = document.createElement('div');
+        s.className = 'card skeleton';
+        container.appendChild(s);
+      }
+    }
+
+    function renderRow(el, items){
+      el.innerHTML = '';
+      items.forEach(it=>{
+        if(it && it.poster_path) el.appendChild(makeCard(it));
+      });
+      const first = el.querySelector('.card');
+      if(first) first.tabIndex = 0;
+    }
+
+    async function fetchJson(url){
+      const res = await fetch(url, { cache: 'no-store' });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      return await res.json();
+    }
+
+    // ========= TABS =========
+    const tabs = Array.from(document.querySelectorAll('.tab'));
+    function setTab(key){
+      tabs.forEach(t=>{
+        const on = t.dataset.tab === key;
+        t.classList.toggle('active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+
+      document.querySelectorAll('.tabPanel').forEach(p=>{
+        p.style.display = (p.dataset.panel === key) ? '' : 'none';
+      });
+    }
+    tabs.forEach(t => t.addEventListener('click', () => setTab(t.dataset.tab)));
+
+    // ========= BUSCA LOCAL =========
+    document.getElementById('q').addEventListener('input', (e)=>{
+      const q = (e.target.value || '').trim().toLowerCase();
+      document.querySelectorAll('.card').forEach(card=>{
+        const title = (card.getAttribute('aria-label') || '').toLowerCase();
+        card.style.display = (!q || title.includes(q)) ? '' : 'none';
+      });
+    });
+
+    // ========= PROVIDERS BUILDER =========
+    const providersRoot = document.getElementById('providers');
+
+    // OBS: Para “filtrar por provedor real (Netflix/Prime/etc)” via TMDB precisa de IDs de provedores (watch/providers).
+    // Para não travar agora, estou organizando por SEÇÕES com dados diferentes (trending/genres/tv/etc) — layout fica perfeito.
+    // Se você quiser “proveedor real”, eu adapto depois com os IDs.
+    const PROVIDERS = [
+      { key:'netflix', name:'Netflix', tag:'Popular', rows:[
+        { panel:'reco',  title:'Recomendados',  desc:'Top picks e novidades',     fetch: () => `${BASE_URL}/trending/all/day?api_key=${API_KEY}&language=pt-BR` },
+        { panel:'filmes',title:'Filmes em Alta',desc:'Ação / Blockbusters',      fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=28&language=pt-BR` },
+        { panel:'series',title:'Séries',        desc:'Popular agora',            fetch: () => `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=pt-BR` },
+        { panel:'familia',title:'Família',      desc:'Animações e diversão',     fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=16&language=pt-BR` },
+      ]},
+      { key:'prime', name:'Prime Video', tag:'Originals', rows:[
+        { panel:'reco',  title:'Destaques',     desc:'Seleção premium',          fetch: () => `${BASE_URL}/trending/movie/day?api_key=${API_KEY}&language=pt-BR` },
+        { panel:'filmes',title:'Filmes',        desc:'Suspense / Ação',          fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=53&language=pt-BR` },
+        { panel:'series',title:'Séries',        desc:'Top séries',               fetch: () => `${BASE_URL}/tv/top_rated?api_key=${API_KEY}&language=pt-BR` },
+        { panel:'familia',title:'Para todos',   desc:'Aventura / Família',       fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=12&language=pt-BR` },
+      ]},
+      { key:'hbo', name:'HBO Max', tag:'Prestígio', rows:[
+        { panel:'reco',  title:'Em alta',       desc:'Tendência agora',          fetch: () => `${BASE_URL}/trending/tv/day?api_key=${API_KEY}&language=pt-BR` },
+        { panel:'filmes',title:'Filmes',        desc:'Drama / Crime',            fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=80&language=pt-BR` },
+        { panel:'series',title:'Séries',        desc:'Séries aclamadas',         fetch: () => `${BASE_URL}/tv/airing_today?api_key=${API_KEY}&language=pt-BR` },
+        { panel:'familia',title:'Família',      desc:'Fantasia e aventura',      fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=14&language=pt-BR` },
+      ]},
+      { key:'disney', name:'Disney+', tag:'Família', rows:[
+        { panel:'reco',  title:'Destaques',     desc:'Top do momento',           fetch: () => `${BASE_URL}/trending/all/week?api_key=${API_KEY}&language=pt-BR` },
+        { panel:'filmes',title:'Filmes',        desc:'Aventura / Fantasia',      fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=14&language=pt-BR` },
+        { panel:'series',title:'Séries',        desc:'Populares',                fetch: () => `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=pt-BR&page=2` },
+        { panel:'familia',title:'Animações',    desc:'Para toda a família',      fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=16&language=pt-BR&page=2` },
+      ]},
+    ];
+
+    function buildProviderSection(p){
+      const section = document.createElement('section');
+      section.className = 'provider';
+      section.id = `provider-${p.key}`;
+      section.setAttribute('aria-label', p.name);
+
+      section.innerHTML = `
+        <div class="providerTop">
+          <div class="providerTitle"><span class="dot"></span> ${p.name} <span class="tag">${p.tag}</span></div>
+          <div class="providerActions">
+            <a class="linkAll" href="${LINK_VENDA}" rel="nofollow">Ver todos</a>
+          </div>
+        </div>
+      `;
+
+      p.rows.forEach(r=>{
+        const row = document.createElement('div');
+        row.className = 'row tabPanel';
+        row.dataset.panel = r.panel;
+        row.style.display = (r.panel === 'reco') ? '' : 'none';
+
+        const postersId = `${p.key}-${r.panel}`;
+
+        row.innerHTML = `
+          <div class="rowHead">
+            <div>
+              <div class="rowName">${r.title}</div>
+              <div class="mini">${r.desc}</div>
+            </div>
+          </div>
+          <div id="${postersId}" class="posters"></div>
+        `;
+
+        section.appendChild(row);
+
+        // skeleton now
+        renderSkeleton(row.querySelector('.posters'), 10);
+
+        // load later
+        r._postersId = postersId;
+      });
+
+      return section;
+    }
+
+    PROVIDERS.forEach(p => providersRoot.appendChild(buildProviderSection(p)));
+
+    // ========= ZONA 18+ (locked) =========
+    const adultZone = document.getElementById('adult-zone');
+    const adultRow  = document.getElementById('adult-row');
+
+    function isAdultUnlocked(){
+      return sessionStorage.getItem(ADULT_FLAG_KEY) === '1';
+    }
+    function setAdultUnlocked(){
+      sessionStorage.setItem(ADULT_FLAG_KEY, '1');
+      adultZone.style.display = '';
+    }
+
+    // Modal controls
+    const pinBack = document.getElementById('pinBack');
+    const pinInput = document.getElementById('pinInput');
+    const pinMsg = document.getElementById('pinMsg');
+
+    function openPin(){
+      pinMsg.textContent = '';
+      pinMsg.className = 'msg';
+      pinInput.value = '';
+      pinBack.style.display = 'flex';
+      setTimeout(()=>pinInput.focus(), 50);
+    }
+    function closePin(){
+      pinBack.style.display = 'none';
+    }
+    function tryPin(){
+      const v = (pinInput.value || '').trim();
+      if(v === ADULT_PIN){
+        setAdultUnlocked();
+        closePin();
+      }else{
+        pinMsg.textContent = 'PIN incorreto.';
+        pinMsg.className = 'msg err';
+      }
+    }
+
+    document.getElementById('btnAdult').addEventListener('click', ()=>{
+      if(isAdultUnlocked()){
+        adultZone.style.display = '';
+        adultZone.scrollIntoView({ behavior:'smooth', block:'start' });
+      }else{
+        openPin();
+      }
+    });
+    document.getElementById('pinCancel').addEventListener('click', closePin);
+    document.getElementById('pinOk').addEventListener('click', tryPin);
+    pinInput.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter') tryPin();
+      if(e.key === 'Escape') closePin();
+    });
+    pinBack.addEventListener('click', (e)=>{
+      if(e.target === pinBack) closePin();
+    });
+
+    // ========= LOAD DATA =========
+    async function loadHero(){
+      try{
+        const trending = await fetchJson(`${BASE_URL}/trending/all/day?api_key=${API_KEY}&language=pt-BR`);
+        const list = trending?.results || [];
+        const destaque = list[0];
+
+        if(destaque?.backdrop_path){
+          document.getElementById('heroBg').style.backgroundImage =
+            `url(${BANNER_IMG_URL}${destaque.backdrop_path})`;
         }
-    </script>
+        document.getElementById('banner-title').innerText = safeTitle(destaque);
+        document.getElementById('banner-desc').innerText =
+          clampText(destaque?.overview || 'Layout premium Consysencia. Clique para assinar e ativar.', 170);
+      }catch(err){
+        console.error('Hero error', err);
+        document.getElementById('banner-title').innerText = 'ConsysenciaPlay Premium';
+        document.getElementById('banner-desc').innerText = 'Catálogo indisponível. Clique para assinar.';
+      }
+    }
+
+    async function loadProviders(){
+      const jobs = [];
+      for(const p of PROVIDERS){
+        for(const r of p.rows){
+          const el = document.getElementById(r._postersId);
+          if(!el) continue;
+
+          const job = fetchJson(r.fetch())
+            .then(d => renderRow(el, (d?.results || []).slice(0, 20)))
+            .catch(e => { console.error(p.key, r.panel, e); el.innerHTML=''; });
+
+          jobs.push(job);
+        }
+      }
+      await Promise.allSettled(jobs);
+    }
+
+    async function loadAdultDemo(){
+      // Aqui é só DEMO de “área restrita”: vou usar resultados genéricos do TMDB.
+      // Você pode trocar depois por seu catálogo real.
+      renderSkeleton(adultRow, 10);
+      fetchJson(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=10749&language=pt-BR`) // Romance (neutro)
+        .then(d => renderRow(adultRow, (d?.results || []).slice(0, 20)))
+        .catch(e => { console.error('adult demo', e); adultRow.innerHTML=''; });
+    }
+
+    // On boot
+    (function init(){
+      // se já desbloqueou nessa sessão, mostra
+      if(isAdultUnlocked()) adultZone.style.display = '';
+      loadHero();
+      loadProviders();
+      loadAdultDemo();
+    })();
+  </script>
 </body>
 </html>
