@@ -1,266 +1,833 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consysencia Premium - Catálogo</title>
-    <style>
-        /* === RESET E FONTES === */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background-color: #0b0b0c; /* Fundo super escuro premium */
-            color: #ffffff;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            overflow-x: hidden;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consysencia Premium - Catálogo</title>
 
-        /* === BARRA DE NAVEGAÇÃO === */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 50px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo { font-size: 1.8rem; font-weight: 900; color: #00d2ff; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .logo span { color: #ffffff; }
+  <style>
+    /* =========================
+       CONSYSENCIAPLAY — V1
+       - Dark tech + neon green
+       - Premium glass + glow
+       - TV/Remote friendly focus
+       - Performance safe
+    ========================== */
 
-        /* === BANNER PRINCIPAL (HERO) === */
-        .hero {
-            position: relative;
-            height: 85vh;
-            background-size: cover;
-            background-position: center top;
-            display: flex;
-            align-items: flex-end;
-            padding: 0 50px 80px 50px;
-        }
-        /* Degradê para misturar o banner com o resto do site */
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 60%;
-            background: linear-gradient(to top, #0b0b0c 0%, rgba(11,11,12,0) 100%);
-        }
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            max-width: 600px;
-        }
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-        }
-        .hero-desc {
-            font-size: 1.1rem;
-            color: #d2d2d2;
-            margin-bottom: 25px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-            line-height: 1.5;
-        }
-        .btn-premium {
-            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
-            color: white;
-            padding: 14px 32px;
-            font-size: 1.2rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
-        }
-        .btn-premium:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.6);
-        }
+    :root{
+      --bg: #07090b;
+      --bg2:#0b0f12;
+      --card:#0b1014cc;
+      --stroke:#1a2a25;
+      --muted:#a9b2b9;
+      --text:#f5f7fa;
 
-        /* === FILEIRAS DE CATÁLOGO === */
-        .row-container { padding: 10px 50px 30px 50px; position: relative; z-index: 5; }
-        .row-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #e5e5e5;
-        }
-        .posters-row {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            overflow-y: hidden;
-            padding: 20px 0;
-            scroll-behavior: smooth;
-        }
-        /* Esconde a barra de rolagem mas mantém a função */
-        .posters-row::-webkit-scrollbar { display: none; }
-        
-        .poster-card {
-            min-width: 180px;
-            border-radius: 8px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-            position: relative;
-        }
-        .poster-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        /* Efeito Netflix no Hover */
-        .poster-card:hover {
-            transform: scale(1.1) translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
-            z-index: 20;
-            border: 2px solid #00d2ff;
-        }
+      --neon:#00ff88;        /* Consysencia green */
+      --neon2:#00d26a;
+      --cyan:#00d2ff;        /* opcional para highlights */
+      --danger:#ff3b58;
 
-        /* Responsividade para celular */
-        @media (max-width: 768px) {
-            header { padding: 15px 20px; }
-            .hero { padding: 0 20px 40px 20px; height: 75vh; }
-            .hero-title { font-size: 2.2rem; }
-            .row-container { padding: 10px 20px 20px 20px; }
-            .poster-card { min-width: 130px; }
-        }
-    </style>
+      --shadow: 0 16px 60px rgba(0,0,0,.55);
+      --shadow2: 0 10px 30px rgba(0,0,0,.55);
+
+      --r12: 12px;
+      --r16: 16px;
+      --r20: 20px;
+
+      --max: 1180px;
+      --gap: 14px;
+
+      --focus: 0 0 0 2px rgba(0,255,136,.75), 0 0 18px rgba(0,255,136,.35);
+    }
+
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(900px 420px at 25% -5%, rgba(0,255,136,.20), rgba(0,0,0,0) 60%),
+        radial-gradient(900px 420px at 85% 10%, rgba(0,210,255,.10), rgba(0,0,0,0) 55%),
+        radial-gradient(1200px 600px at 50% 120%, rgba(0,255,136,.10), rgba(0,0,0,0) 55%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      color: var(--text);
+      overflow-x:hidden;
+    }
+
+    /* subtle animated noise */
+    .noise{
+      pointer-events:none;
+      position:fixed; inset:0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+      opacity:.24;
+      transform: translateZ(0);
+    }
+
+    /* ===== TOPBAR ===== */
+    header{
+      position: fixed;
+      top:0; left:0; right:0;
+      z-index: 1000;
+      padding: 14px 18px;
+      background: linear-gradient(to bottom, rgba(7,9,11,.82), rgba(7,9,11,.35), rgba(7,9,11,0));
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,255,136,.08);
+      transition: background .25s ease, border-color .25s ease;
+    }
+    header.scrolled{
+      background: rgba(7,9,11,.78);
+      border-bottom-color: rgba(0,255,136,.14);
+    }
+    .top{
+      max-width: var(--max);
+      margin: 0 auto;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      min-width: 180px;
+    }
+    .logoMark{
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      background:
+        radial-gradient(16px 16px at 30% 30%, rgba(0,255,136,.9), rgba(0,255,136,0) 60%),
+        linear-gradient(135deg, rgba(0,255,136,.20), rgba(0,210,255,.12));
+      border: 1px solid rgba(0,255,136,.25);
+      box-shadow: 0 0 0 1px rgba(0,0,0,.4) inset, 0 0 18px rgba(0,255,136,.25);
+    }
+    .logoText{
+      font-weight: 900;
+      letter-spacing:.9px;
+      font-size: 1.05rem;
+      line-height: 1;
+    }
+    .logoText span{
+      color: var(--neon);
+      text-shadow: 0 0 16px rgba(0,255,136,.35);
+    }
+    .subtitle{
+      font-size:.78rem;
+      color: rgba(245,247,250,.62);
+      margin-top: 2px;
+    }
+
+    .searchWrap{
+      flex: 1;
+      display:flex;
+      justify-content: center;
+      max-width: 520px;
+    }
+    .search{
+      width:100%;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(10,14,18,.6);
+      border: 1px solid rgba(0,255,136,.10);
+      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+    }
+    .search svg{ opacity:.85; }
+    .search input{
+      width:100%;
+      border:0;
+      outline:none;
+      background: transparent;
+      color: var(--text);
+      font-size: .98rem;
+    }
+    .search input::placeholder{ color: rgba(245,247,250,.45); }
+
+    .cta{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    .btn{
+      border: 1px solid rgba(0,255,136,.18);
+      background: linear-gradient(180deg, rgba(0,255,136,.20), rgba(0,255,136,.06));
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: .95rem;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      box-shadow: 0 14px 35px rgba(0,0,0,.45), 0 0 18px rgba(0,255,136,.12);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      user-select:none;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(0,255,136,.35);
+      box-shadow: 0 18px 45px rgba(0,0,0,.55), 0 0 28px rgba(0,255,136,.18);
+    }
+    .btn:focus-visible{ outline:none; box-shadow: var(--focus); }
+
+    /* ===== LAYOUT ===== */
+    .spacer{ height: 74px; }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 18px 40px;
+    }
+
+    /* ===== HERO ===== */
+    .hero{
+      position: relative;
+      margin-top: 12px;
+      border-radius: 24px;
+      overflow:hidden;
+      min-height: 72vh;
+      background: #0e1114;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,255,136,.10);
+      transform: translateZ(0);
+    }
+
+    .heroBg{
+      position:absolute; inset:0;
+      background-size: cover;
+      background-position: center top;
+      filter: saturate(1.05) contrast(1.02);
+      transform: scale(1.02);
+      will-change: transform;
+    }
+
+    /* layered overlays */
+    .heroOverlay{
+      position:absolute; inset:0;
+      background:
+        radial-gradient(900px 540px at 20% 30%, rgba(0,255,136,.18), rgba(0,0,0,0) 60%),
+        radial-gradient(900px 540px at 78% 20%, rgba(0,210,255,.10), rgba(0,0,0,0) 55%),
+        linear-gradient(90deg, rgba(7,9,11,.92) 0%, rgba(7,9,11,.55) 48%, rgba(7,9,11,.25) 100%),
+        linear-gradient(180deg, rgba(7,9,11,.08) 0%, rgba(7,9,11,.70) 78%, rgba(7,9,11,.92) 100%);
+    }
+
+    .heroContent{
+      position: relative;
+      z-index: 2;
+      padding: 26px 26px 22px;
+      display:flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-height: 72vh;
+      max-width: 720px;
+      gap: 12px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(10,14,18,.55);
+      border: 1px solid rgba(0,255,136,.16);
+      box-shadow: 0 12px 30px rgba(0,0,0,.35), 0 0 22px rgba(0,255,136,.10);
+      font-weight: 800;
+      color: rgba(245,247,250,.92);
+      letter-spacing: .3px;
+      user-select:none;
+    }
+    .badge i{
+      width:8px; height:8px; border-radius:999px;
+      background: var(--neon);
+      box-shadow: 0 0 18px rgba(0,255,136,.75);
+      display:inline-block;
+    }
+
+    .heroTitle{
+      font-size: clamp(2.0rem, 4.5vw, 3.6rem);
+      font-weight: 950;
+      letter-spacing: .2px;
+      line-height: 1.05;
+      text-shadow: 0 18px 60px rgba(0,0,0,.65);
+    }
+    .heroDesc{
+      color: rgba(245,247,250,.78);
+      font-size: 1.04rem;
+      line-height: 1.55;
+      max-width: 56ch;
+      text-shadow: 0 10px 28px rgba(0,0,0,.65);
+    }
+    .heroActions{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .btnPrimary{
+      background: linear-gradient(90deg, rgba(0,255,136,.95), rgba(0,210,106,.80));
+      border-color: rgba(0,255,136,.35);
+      color: #04110a;
+      box-shadow: 0 18px 45px rgba(0,0,0,.55), 0 0 26px rgba(0,255,136,.25);
+    }
+    .btnPrimary:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 24px 60px rgba(0,0,0,.65), 0 0 34px rgba(0,255,136,.28);
+    }
+    .btnGhost{
+      background: rgba(10,14,18,.45);
+      border-color: rgba(245,247,250,.14);
+      color: rgba(245,247,250,.92);
+      box-shadow: 0 16px 40px rgba(0,0,0,.50);
+    }
+
+    /* ===== ROWS ===== */
+    .section{
+      margin-top: 18px;
+      border-radius: 20px;
+      background: rgba(10,14,18,.35);
+      border: 1px solid rgba(0,255,136,.08);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .sectionHeader{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      padding: 14px 14px 6px;
+      gap: 10px;
+    }
+    .rowTitle{
+      font-size: 1.08rem;
+      font-weight: 900;
+      letter-spacing:.2px;
+      color: rgba(245,247,250,.92);
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+    .rowTitle .dot{
+      width: 8px; height:8px; border-radius:999px;
+      background: rgba(0,255,136,.9);
+      box-shadow: 0 0 18px rgba(0,255,136,.55);
+    }
+
+    .rowControls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .iconBtn{
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,255,136,.12);
+      background: rgba(10,14,18,.55);
+      color: rgba(245,247,250,.9);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+      user-select:none;
+    }
+    .iconBtn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(0,255,136,.28);
+      box-shadow: 0 0 18px rgba(0,255,136,.12);
+    }
+    .iconBtn:focus-visible{ outline:none; box-shadow: var(--focus); }
+
+    .postersRow{
+      display:flex;
+      gap: var(--gap);
+      overflow-x:auto;
+      overflow-y:hidden;
+      padding: 14px 14px 18px;
+      scroll-behavior:smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+    .postersRow::-webkit-scrollbar{ display:none; }
+
+    .card{
+      min-width: 176px;
+      width: 176px;
+      aspect-ratio: 2/3;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      cursor:pointer;
+      background: rgba(0,0,0,.35);
+      border: 1px solid rgba(0,255,136,.12);
+      box-shadow: 0 12px 30px rgba(0,0,0,.55);
+      transform: translateZ(0);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, filter .18s ease;
+      user-select:none;
+      outline: none;
+      flex: 0 0 auto;
+    }
+    .card::before{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(240px 180px at 30% 20%, rgba(0,255,136,.18), rgba(0,0,0,0) 55%);
+      opacity: 0;
+      transition: opacity .18s ease;
+      pointer-events:none;
+      z-index:2;
+    }
+    .card:hover{
+      transform: scale(1.06) translateY(-8px);
+      border-color: rgba(0,255,136,.35);
+      box-shadow: 0 18px 50px rgba(0,0,0,.70), 0 0 26px rgba(0,255,136,.12);
+      z-index: 20;
+      filter: saturate(1.03);
+    }
+    .card:hover::before{ opacity: 1; }
+    .card:focus-visible{
+      box-shadow: var(--focus), 0 18px 50px rgba(0,0,0,.70);
+      border-color: rgba(0,255,136,.55);
+      transform: scale(1.06) translateY(-8px);
+      z-index: 30;
+    }
+
+    .card img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      transform: scale(1.02);
+    }
+
+    .cardMeta{
+      position:absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      z-index: 3;
+      padding: 10px 10px;
+      border-radius: 14px;
+      background: rgba(7,9,11,.65);
+      border: 1px solid rgba(245,247,250,.12);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.55);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .18s ease, transform .18s ease;
+      pointer-events:none;
+    }
+    .card:hover .cardMeta{ opacity: 1; transform: translateY(0); }
+    .card:focus-visible .cardMeta{ opacity: 1; transform: translateY(0); }
+
+    .metaTitle{
+      font-weight: 950;
+      font-size: .88rem;
+      line-height: 1.2;
+      letter-spacing: .1px;
+      display:-webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow:hidden;
+    }
+    .metaSub{
+      margin-top: 6px;
+      font-size: .78rem;
+      color: rgba(245,247,250,.70);
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(0,255,136,.14);
+      border: 1px solid rgba(0,255,136,.20);
+      color: rgba(245,247,250,.92);
+      font-weight: 850;
+      font-size: .74rem;
+    }
+
+    /* ===== SKELETON ===== */
+    .skeleton{
+      position: relative;
+      overflow:hidden;
+      background: rgba(245,247,250,.06);
+      border: 1px solid rgba(245,247,250,.08);
+    }
+    .skeleton::after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.10) 50%, rgba(255,255,255,0) 100%);
+      transform: translateX(-60%);
+      animation: shimmer 1.15s infinite;
+    }
+    @keyframes shimmer{
+      0%{ transform: translateX(-60%); }
+      100%{ transform: translateX(60%); }
+    }
+
+    /* ===== FOOTER ===== */
+    .foot{
+      margin-top: 22px;
+      padding: 18px 14px 20px;
+      text-align:center;
+      color: rgba(245,247,250,.55);
+      font-size: .90rem;
+    }
+    .foot strong{ color: rgba(245,247,250,.85); }
+    .foot span{ color: var(--neon); text-shadow: 0 0 16px rgba(0,255,136,.25); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 860px){
+      .searchWrap{ display:none; } /* no celular, some busca pra ficar limpo */
+      .hero{ min-height: 64vh; }
+      .heroContent{ min-height: 64vh; }
+      .card{ min-width: 140px; width: 140px; border-radius: 14px; }
+      .section{ border-radius: 18px; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ scroll-behavior:auto !important; }
+      .heroBg{ will-change:auto; }
+      .skeleton::after{ animation:none; }
+      .card, .btn, .iconBtn{ transition:none; }
+    }
+  </style>
 </head>
+
 <body>
+  <div class="noise" aria-hidden="true"></div>
 
-    <header>
-        <div class="logo">CONSYSENCIA<span>PLAY</span></div>
-    </header>
-
-    <div id="banner" class="hero" style="background-color: #111;">
-        <div class="hero-content">
-            <h1 id="banner-title">Carregando Novidades...</h1>
-            <p class="hero-desc" id="banner-desc">Os melhores lançamentos, séries exclusivas e canais ao vivo em um só lugar. Sem travamentos.</p>
-            <a href="https://consysencia.com/product/uni-tv--mobile" class="btn-premium">
-                ▶ Assinar Premium Agora
-            </a>
+  <header id="topbar">
+    <div class="top">
+      <div class="brand">
+        <div class="logoMark" aria-hidden="true"></div>
+        <div>
+          <div class="logoText">CONSYSENCIA<span>PLAY</span></div>
+          <div class="subtitle">Catálogo Premium • Acesso Rápido</div>
         </div>
+      </div>
+
+      <div class="searchWrap">
+        <div class="search" role="search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2"/>
+            <path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input id="q" type="text" placeholder="Buscar no catálogo (visual)" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="cta">
+        <a id="btnAssinar" class="btn btnPrimary" href="#" rel="nofollow">
+          ▶ Assinar Premium
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="spacer"></div>
+
+  <div class="wrap">
+
+    <!-- HERO -->
+    <section class="hero" aria-label="Destaque do dia">
+      <div id="heroBg" class="heroBg" style="background-image: none;"></div>
+      <div class="heroOverlay" aria-hidden="true"></div>
+
+      <div class="heroContent">
+        <div class="badge"><i></i> CONSYSENCIA • EXPERIENCE</div>
+
+        <h1 id="banner-title" class="heroTitle">Carregando Novidades...</h1>
+        <p id="banner-desc" class="heroDesc">
+          Os melhores lançamentos, séries exclusivas e canais ao vivo em um só lugar. Interface premium Consysencia.
+        </p>
+
+        <div class="heroActions">
+          <a class="btn btnPrimary" id="heroCTA" href="#" rel="nofollow">▶ Ativar / Assinar</a>
+          <a class="btn btnGhost" id="heroMore" href="#" rel="nofollow">Ver planos</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTIONS -->
+    <section class="section" aria-label="Lançamentos em Alta">
+      <div class="sectionHeader">
+        <div class="rowTitle"><span class="dot"></span> Lançamentos em Alta</div>
+        <div class="rowControls">
+          <button class="iconBtn" data-scroll="trending-row" data-dir="-1" aria-label="Voltar">
+            ◀
+          </button>
+          <button class="iconBtn" data-scroll="trending-row" data-dir="1" aria-label="Avançar">
+            ▶
+          </button>
+        </div>
+      </div>
+      <div id="trending-row" class="postersRow"></div>
+    </section>
+
+    <section class="section" aria-label="Ação e Aventura">
+      <div class="sectionHeader">
+        <div class="rowTitle"><span class="dot"></span> Ação e Aventura</div>
+        <div class="rowControls">
+          <button class="iconBtn" data-scroll="action-row" data-dir="-1" aria-label="Voltar">◀</button>
+          <button class="iconBtn" data-scroll="action-row" data-dir="1" aria-label="Avançar">▶</button>
+        </div>
+      </div>
+      <div id="action-row" class="postersRow"></div>
+    </section>
+
+    <section class="section" aria-label="Séries para Maratonar">
+      <div class="sectionHeader">
+        <div class="rowTitle"><span class="dot"></span> Séries para Maratonar</div>
+        <div class="rowControls">
+          <button class="iconBtn" data-scroll="series-row" data-dir="-1" aria-label="Voltar">◀</button>
+          <button class="iconBtn" data-scroll="series-row" data-dir="1" aria-label="Avançar">▶</button>
+        </div>
+      </div>
+      <div id="series-row" class="postersRow"></div>
+    </section>
+
+    <section class="section" aria-label="Para toda a Família">
+      <div class="sectionHeader">
+        <div class="rowTitle"><span class="dot"></span> Para toda a Família</div>
+        <div class="rowControls">
+          <button class="iconBtn" data-scroll="family-row" data-dir="-1" aria-label="Voltar">◀</button>
+          <button class="iconBtn" data-scroll="family-row" data-dir="1" aria-label="Avançar">▶</button>
+        </div>
+      </div>
+      <div id="family-row" class="postersRow"></div>
+    </section>
+
+    <div class="foot">
+      <strong>CONSYSENCIA<span>PLAY</span></strong> • Visual premium • Catálogo demonstrativo (TMDB)
     </div>
 
-    <div class="row-container">
-        <h2 class="row-title">Lançamentos em Alta</h2>
-        <div id="trending-row" class="posters-row"></div>
-    </div>
+  </div>
 
-    <div class="row-container">
-        <h2 class="row-title">Ação e Aventura</h2>
-        <div id="action-row" class="posters-row"></div>
-    </div>
+  <script>
+    // ==========================
+    // CONFIG
+    // ==========================
+    const API_KEY = '7776b6307d414481ba1795a72e5db0d2'; // Ideal: esconder em backend
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const IMG_URL = 'https://image.tmdb.org/t/p/w500';
+    const BANNER_IMG_URL = 'https://image.tmdb.org/t/p/original';
 
-    <div class="row-container">
-        <h2 class="row-title">Séries para Maratonar</h2>
-        <div id="series-row" class="posters-row"></div>
-    </div>
+    const LINK_VENDA = 'https://consysencia.com/product/uni-tv--mobile';
 
-    <div class="row-container">
-        <h2 class="row-title">Para toda a Família</h2>
-        <div id="family-row" class="posters-row"></div>
-    </div>
+    // ==========================
+    // HELPERS (safe)
+    // ==========================
+    const $ = (sel) => document.querySelector(sel);
+    const clampText = (txt, n=160) => (txt && txt.length > n ? (txt.slice(0, n).trim() + '…') : (txt || ''));
 
-    <script>
-        // === A SUA CHAVE DA API ===
-        const API_KEY = '7776b6307d414481ba1795a72e5db0d2';
-        // ==========================
+    function safeTitle(item){
+      return (item && (item.title || item.name)) ? (item.title || item.name) : 'Título indisponível';
+    }
 
-        const BASE_URL = 'https://api.themoviedb.org/3';
-        const IMG_URL = 'https://image.tmdb.org/t/p/w500';
-        const BANNER_IMG_URL = 'https://image.tmdb.org/t/p/original';
-        
-        // O seu link de vendas (O destino de todos os cliques)
-        const LINK_VENDA = 'https://consysencia.com/product/uni-tv--mobile';
+    function vote(item){
+      const v = (item && typeof item.vote_average === 'number') ? item.vote_average : null;
+      return v ? (Math.round(v * 10) / 10).toFixed(1) : null;
+    }
 
-        // Função genérica para criar os pôsteres e jogar o cliente pra loja
-        function renderizarPosters(filmes, containerId) {
-            const container = document.getElementById(containerId);
-            filmes.forEach(item => {
-                if (item.poster_path) {
-                    const div = document.createElement('div');
-                    div.className = 'poster-card';
-                    div.onclick = () => window.location.href = LINK_VENDA; // O clique mágico
+    function makeCard(item){
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'card';
+      card.title = safeTitle(item);
+      card.setAttribute('aria-label', safeTitle(item));
+      card.addEventListener('click', () => (window.location.href = LINK_VENDA));
 
-                    const img = document.createElement('img');
-                    img.src = `${IMG_URL}${item.poster_path}`;
-                    img.alt = item.title || item.name;
-                    img.loading = "lazy"; // Carrega rápido
+      const img = document.createElement('img');
+      img.loading = 'lazy';
+      img.alt = safeTitle(item);
+      img.src = item.poster_path ? `${IMG_URL}${item.poster_path}` : '';
+      card.appendChild(img);
 
-                    div.appendChild(img);
-                    container.appendChild(div);
-                }
-            });
+      const meta = document.createElement('div');
+      meta.className = 'cardMeta';
+
+      const t = document.createElement('div');
+      t.className = 'metaTitle';
+      t.textContent = safeTitle(item);
+
+      const sub = document.createElement('div');
+      sub.className = 'metaSub';
+
+      const pill = document.createElement('span');
+      pill.className = 'pill';
+      const v = vote(item);
+      pill.textContent = v ? `★ ${v}` : 'Premium';
+
+      const hint = document.createElement('span');
+      hint.textContent = 'Clique para assinar';
+
+      sub.appendChild(pill);
+      sub.appendChild(hint);
+
+      meta.appendChild(t);
+      meta.appendChild(sub);
+
+      card.appendChild(meta);
+
+      return card;
+    }
+
+    function renderSkeleton(container, count=10){
+      container.innerHTML = '';
+      for(let i=0;i<count;i++){
+        const s = document.createElement('div');
+        s.className = 'card skeleton';
+        s.setAttribute('aria-hidden','true');
+        container.appendChild(s);
+      }
+    }
+
+    function renderItems(containerId, items){
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      items.forEach(item => {
+        if(item && item.poster_path){
+          container.appendChild(makeCard(item));
         }
+      });
+    }
 
-        // 1. Carregar Banner Principal e Em Alta
-        async function loadTrending() {
-            try {
-                const res = await fetch(`${BASE_URL}/trending/all/day?api_key=${API_KEY}&language=pt-BR`);
-                const data = await res.json();
-                
-                // Configura o Hero (Pega o 1º da lista)
-                const destaque = data.results[0];
-                document.getElementById('banner').style.backgroundImage = `url(${BANNER_IMG_URL}${destaque.backdrop_path})`;
-                document.getElementById('banner-title').innerText = destaque.title || destaque.name;
-                
-                if(destaque.overview) {
-                    // Corta o texto para não ficar gigante
-                    let sinopse = destaque.overview.substring(0, 150) + "...";
-                    document.getElementById('banner-desc').innerText = sinopse;
-                }
+    async function fetchJson(url){
+      const res = await fetch(url, { cache: 'no-store' });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      return await res.json();
+    }
 
-                // O resto vai pra fileira "Em Alta"
-                renderizarPosters(data.results.slice(1), 'trending-row');
-            } catch (err) { console.error("Erro no Trending", err); }
+    // ==========================
+    // HERO PARALLAX (light)
+    // ==========================
+    (function heroParallax(){
+      const bg = document.getElementById('heroBg');
+      let ticking = false;
+      function onScroll(){
+        if(ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const y = window.scrollY || 0;
+          bg.style.transform = `scale(1.05) translateY(${Math.min(y * 0.12, 42)}px)`;
+          ticking = false;
+        });
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+
+    // ==========================
+    // TOPBAR STATE
+    // ==========================
+    (function topbar(){
+      const top = document.getElementById('topbar');
+      function onScroll(){
+        if(window.scrollY > 6) top.classList.add('scrolled');
+        else top.classList.remove('scrolled');
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+
+    // ==========================
+    // ROW SCROLL BUTTONS
+    // ==========================
+    document.querySelectorAll('[data-scroll]').forEach(btn=>{
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-scroll');
+        const dir = Number(btn.getAttribute('data-dir')) || 1;
+        const el = document.getElementById(id);
+        if(!el) return;
+        el.scrollBy({ left: dir * 520, behavior: 'smooth' });
+      });
+    });
+
+    // ==========================
+    // CTA LINKS
+    // ==========================
+    document.getElementById('btnAssinar').href = LINK_VENDA;
+    document.getElementById('heroCTA').href = LINK_VENDA;
+    document.getElementById('heroMore').href = LINK_VENDA;
+
+    // ==========================
+    // LOAD DATA (with skeleton)
+    // ==========================
+    async function loadAll(){
+      // skeletons first
+      renderSkeleton(document.getElementById('trending-row'), 10);
+      renderSkeleton(document.getElementById('action-row'), 10);
+      renderSkeleton(document.getElementById('series-row'), 10);
+      renderSkeleton(document.getElementById('family-row'), 10);
+
+      try{
+        // Trending
+        const trending = await fetchJson(`${BASE_URL}/trending/all/day?api_key=${API_KEY}&language=pt-BR`);
+        const list = (trending && trending.results) ? trending.results : [];
+
+        // Hero
+        const destaque = list[0];
+        if(destaque && destaque.backdrop_path){
+          document.getElementById('heroBg').style.backgroundImage = `url(${BANNER_IMG_URL}${destaque.backdrop_path})`;
         }
+        document.getElementById('banner-title').innerText = safeTitle(destaque);
+        document.getElementById('banner-desc').innerText = clampText(destaque && destaque.overview ? destaque.overview : 'Interface premium Consysencia. Assine e desbloqueie a experiência completa.', 170);
 
-        // 2. Carregar Ação
-        async function loadAction() {
-            try {
-                const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=28&language=pt-BR`);
-                const data = await res.json();
-                renderizarPosters(data.results, 'action-row');
-            } catch (err) { console.error(err); }
-        }
+        // Row trending
+        renderItems('trending-row', list.slice(1, 21));
 
-        // 3. Carregar Séries
-        async function loadSeries() {
-            try {
-                const res = await fetch(`${BASE_URL}/tv/popular?api_key=${API_KEY}&language=pt-BR`);
-                const data = await res.json();
-                renderizarPosters(data.results, 'series-row');
-            } catch (err) { console.error(err); }
-        }
+      }catch(e){
+        console.error('Trending error:', e);
+        document.getElementById('banner-title').innerText = 'Consysencia Premium';
+        document.getElementById('banner-desc').innerText = 'Catálogo demonstrativo indisponível no momento. Toque em Assinar para acessar o Premium.';
+        document.getElementById('trending-row').innerHTML = '';
+      }
 
-        // 4. Carregar Família/Animação
-        async function loadFamily() {
-            try {
-                const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=16&language=pt-BR`);
-                const data = await res.json();
-                renderizarPosters(data.results, 'family-row');
-            } catch (err) { console.error(err); }
-        }
+      // Load other rows (parallel)
+      const tasks = [
+        fetchJson(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=28&language=pt-BR`).then(d => renderItems('action-row', (d && d.results) ? d.results.slice(0,20) : []))
+          .catch(e => (console.error('Action error:', e), document.getElementById('action-row').innerHTML='')),
+        fetchJson(`${BASE_URL}/tv/popular?api_key=${API_KEY}&language=pt-BR`).then(d => renderItems('series-row', (d && d.results) ? d.results.slice(0,20) : []))
+          .catch(e => (console.error('Series error:', e), document.getElementById('series-row').innerHTML='')),
+        fetchJson(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=16&language=pt-BR`).then(d => renderItems('family-row', (d && d.results) ? d.results.slice(0,20) : []))
+          .catch(e => (console.error('Family error:', e), document.getElementById('family-row').innerHTML='')),
+      ];
+      await Promise.allSettled(tasks);
 
-        // Executa tudo ao abrir a página
-        loadTrending();
-        loadAction();
-        loadSeries();
-        loadFamily();
-    </script>
+      // Remote-friendly: focus first card on TVs/keyboard users
+      const first = document.querySelector('.card');
+      if(first) first.tabIndex = 0;
+    }
+
+    // ==========================
+    // OPTIONAL SEARCH (visual only)
+    // - This does NOT filter API; it just hides cards by title.
+    // ==========================
+    (function localSearch(){
+      const input = document.getElementById('q');
+      if(!input) return;
+      input.addEventListener('input', () => {
+        const q = (input.value || '').trim().toLowerCase();
+        document.querySelectorAll('.card').forEach(card => {
+          const t = (card.getAttribute('aria-label') || '').toLowerCase();
+          card.style.display = (!q || t.includes(q)) ? '' : 'none';
+        });
+      });
+    })();
+
+    // Boot
+    loadAll();
+  </script>
 </body>
 </html>
