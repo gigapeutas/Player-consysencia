@@ -1,64 +1,108 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ConsysenciaPlay • Catálogo</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ConsysenciaPlay</title>
 
   <style>
     :root{
-      --bg:#07090b;
-      --card:rgba(10,14,18,.55);
+      --bg:#06080a;
+      --bg2:#0b0f12;
+      --card:rgba(10,14,18,.62);
+      --stroke:rgba(0,255,136,.14);
+      --stroke2:rgba(255,255,255,.10);
       --text:#f6f8fb;
-      --muted:rgba(246,248,251,.65);
-
+      --muted:rgba(246,248,251,.68);
       --neon:#00ff88;
       --neon2:#00d26a;
       --danger:#ff3b58;
+      --gold:#f5b400;
 
-      --r12:12px;
-      --r16:16px;
-      --r20:20px;
+      --r14:14px;
+      --r18:18px;
+      --r22:22px;
+      --r26:26px;
+
       --shadow: 0 18px 55px rgba(0,0,0,.55);
+      --shadow2: 0 12px 32px rgba(0,0,0,.50);
       --focus: 0 0 0 2px rgba(0,255,136,.75), 0 0 18px rgba(0,255,136,.35);
-      --max: 1180px;
+      --max: 1220px;
       --gap: 14px;
     }
 
-    *{ margin:0; padding:0; box-sizing:border-box; }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
     body{
+      margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
       background:
         radial-gradient(900px 420px at 25% -5%, rgba(0,255,136,.18), rgba(0,0,0,0) 60%),
         radial-gradient(900px 420px at 85% 10%, rgba(0,210,255,.08), rgba(0,0,0,0) 55%),
-        linear-gradient(180deg, #06080a, #0b0f12);
-      color: var(--text);
+        linear-gradient(180deg, var(--bg), var(--bg2));
       overflow-x:hidden;
     }
 
-    header{
-      position: fixed;
-      top:0; left:0; right:0;
-      z-index: 1000;
-      padding: 12px 14px;
-      background: rgba(7,9,11,.70);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(0,255,136,.10);
+    /* ====== UTIL ====== */
+    .hide{ display:none !important; }
+    .max{ max-width: var(--max); margin:0 auto; }
+    .glow{
+      box-shadow: 0 0 22px rgba(0,255,136,.14), 0 12px 32px rgba(0,0,0,.50);
     }
-    .top{
-      max-width: var(--max);
-      margin: 0 auto;
-      display:flex;
+    .btn{
+      border: 1px solid rgba(0,255,136,.18);
+      background: rgba(10,14,18,.55);
+      color: rgba(246,248,251,.92);
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-weight: 950;
+      cursor:pointer;
+      user-select:none;
+      box-shadow: 0 14px 35px rgba(0,0,0,.35);
+      white-space: nowrap;
+      transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(0,255,136,.30); }
+    .btn:focus-visible{ outline:none; box-shadow: var(--focus); }
+    .btnPrimary{
+      background: linear-gradient(90deg, rgba(0,255,136,.92), rgba(0,210,106,.78));
+      color:#04110a;
+      box-shadow: 0 14px 35px rgba(0,0,0,.45), 0 0 18px rgba(0,255,136,.12);
+    }
+    .btnDanger{
+      border-color: rgba(255,59,88,.25);
+      background: rgba(255,59,88,.14);
+      color: rgba(246,248,251,.92);
+    }
+    .pill{
+      display:inline-flex;
       align-items:center;
-      gap: 10px;
+      gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(10,14,18,.55);
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(246,248,251,.88);
+      font-weight: 900;
+      font-size: .86rem;
     }
+    .dot{
+      width: 8px; height: 8px;
+      border-radius: 999px;
+      background: var(--neon);
+      box-shadow: 0 0 18px rgba(0,255,136,.55);
+      display:inline-block;
+    }
+
+    /* ====== BRAND ====== */
     .brand{
-      display:flex; align-items:center; gap: 10px;
-      min-width: 160px;
+      display:flex; align-items:center; gap:10px;
+      min-width: 180px;
     }
     .mark{
-      width: 32px; height: 32px; border-radius: 10px;
+      width:32px; height:32px;
+      border-radius: 10px;
       background:
         radial-gradient(16px 16px at 30% 30%, rgba(0,255,136,.9), rgba(0,255,136,0) 60%),
         linear-gradient(135deg, rgba(0,255,136,.18), rgba(0,210,255,.10));
@@ -71,115 +115,291 @@
       line-height:1;
     }
     .logo span{ color: var(--neon); text-shadow: 0 0 16px rgba(0,255,136,.25); }
-    .sub{ font-size:.76rem; color: var(--muted); margin-top: 2px; }
+    .sub{ font-size:.76rem; color: var(--muted); margin-top:2px; }
 
-    .search{
-      flex: 1;
+    /* ====== LOGIN VIEW ====== */
+    .login{
+      min-height: 100%;
+      display:grid;
+      place-items:center;
+      padding: 20px 14px;
+    }
+    .loginCard{
+      width: min(980px, 100%);
+      border-radius: 26px;
+      overflow:hidden;
+      border: 1px solid rgba(0,255,136,.10);
+      background: rgba(10,14,18,.40);
+      box-shadow: var(--shadow);
+      display:grid;
+      grid-template-columns: 1.12fr .88fr;
+    }
+    .loginLeft{
+      padding: 26px;
+      background:
+        radial-gradient(850px 480px at 30% 20%, rgba(0,255,136,.18), rgba(0,0,0,0) 60%),
+        linear-gradient(180deg, rgba(7,9,11,.15), rgba(7,9,11,.55));
+      position:relative;
+      overflow:hidden;
+    }
+    .loginLeft::after{
+      content:"";
+      position:absolute; inset:-40%;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(0,255,136,.20), rgba(0,0,0,0) 45%),
+        radial-gradient(circle at 70% 40%, rgba(0,210,255,.10), rgba(0,0,0,0) 55%);
+      transform: rotate(10deg);
+      pointer-events:none;
+    }
+    .headline{
+      position:relative;
+      z-index:2;
+      max-width: 54ch;
+      margin-top: 12px;
+    }
+    .headline .title{
+      font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+      font-weight: 950;
+      line-height: 1.05;
+      margin: 12px 0 10px;
+      text-shadow: 0 18px 60px rgba(0,0,0,.65);
+    }
+    .headline .title span{ color: var(--neon); }
+    .headline p{
+      margin: 0;
+      color: rgba(246,248,251,.74);
+      line-height: 1.55;
+    }
+    .badges{
+      position:relative;
+      z-index:2;
+      margin-top: 18px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .loginRight{
+      padding: 22px;
+      background: rgba(7,9,11,.60);
+      border-left: 1px solid rgba(255,255,255,.06);
+    }
+    .panelTitle{
+      font-weight: 950;
+      font-size: 1.1rem;
+      margin: 0 0 8px;
+    }
+    .panelSub{
+      color: rgba(246,248,251,.65);
+      margin: 0 0 16px;
+      line-height: 1.45;
+      font-size: .92rem;
+    }
+    .field{ margin: 10px 0; display:flex; flex-direction:column; gap:8px; }
+    label{ color: rgba(246,248,251,.78); font-weight: 900; font-size: .88rem; }
+    input{
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(10,14,18,.55);
+      color: var(--text);
+      outline:none;
+      font-size: .98rem;
+    }
+    input:focus{
+      border-color: rgba(0,255,136,.35);
+      box-shadow: var(--focus);
+    }
+    .actions{ margin-top: 14px; display:flex; gap: 10px; flex-wrap: wrap; }
+    .msg{ margin-top: 10px; color: rgba(246,248,251,.75); font-weight: 900; min-height: 20px; }
+    .msg.err{ color: rgba(255,59,88,.95); }
+    .loginFine{
+      margin-top: 12px;
+      color: rgba(246,248,251,.55);
+      font-size: .86rem;
+      line-height: 1.45;
+    }
+
+    /* ====== PROFILE VIEW ====== */
+    .profiles{
+      min-height: 100%;
+      display:grid;
+      place-items:center;
+      padding: 20px 14px;
+    }
+    .profilesCard{
+      width: min(1040px, 100%);
+      border-radius: 26px;
+      border: 1px solid rgba(0,255,136,.10);
+      background: rgba(10,14,18,.42);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .profilesTop{
+      padding: 16px 16px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
       display:flex;
       align-items:center;
+      justify-content: space-between;
+      gap:10px;
+    }
+    .profilesBody{
+      padding: 18px 16px 20px;
+    }
+    .profilesTitle{
+      font-weight: 950;
+      font-size: clamp(1.4rem, 2.6vw, 2.0rem);
+      margin: 10px 0 6px;
+    }
+    .profilesSub{
+      color: rgba(246,248,251,.65);
+      margin: 0 0 16px;
+    }
+    .gridProfiles{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 12px;
+    }
+    .profile{
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(10,14,18,.55);
+      padding: 14px;
+      cursor:pointer;
+      box-shadow: var(--shadow2);
+      transition: transform .14s ease, border-color .14s ease, box-shadow .14s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .profile:hover{
+      transform: translateY(-2px);
+      border-color: rgba(0,255,136,.25);
+      box-shadow: 0 0 22px rgba(0,255,136,.10), var(--shadow2);
+    }
+    .avatar{
+      width: 74px; height: 74px;
+      border-radius: 20px;
+      border: 1px solid rgba(0,255,136,.20);
+      background:
+        radial-gradient(40px 40px at 30% 30%, rgba(0,255,136,.35), rgba(0,255,136,0) 60%),
+        linear-gradient(135deg, rgba(0,255,136,.14), rgba(0,210,255,.08));
+      box-shadow: 0 0 22px rgba(0,255,136,.10);
+      display:grid;
+      place-items:center;
+      font-weight: 950;
+      font-size: 1.35rem;
+      margin-bottom: 12px;
+    }
+    .pname{ font-weight: 950; }
+    .ptype{ margin-top: 6px; color: rgba(246,248,251,.62); font-size: .88rem; }
+    .tagKids{
+      position:absolute; top:12px; right:12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 950;
+      font-size: .78rem;
+      background: rgba(245,180,0,.14);
+      border: 1px solid rgba(245,180,0,.22);
+      color: rgba(246,248,251,.92);
+    }
+    .tagAdult{
+      position:absolute; top:12px; right:12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 950;
+      font-size: .78rem;
+      background: rgba(255,59,88,.14);
+      border: 1px solid rgba(255,59,88,.22);
+      color: rgba(246,248,251,.92);
+    }
+
+    /* ====== APP VIEW ====== */
+    header{
+      position: fixed;
+      top:0; left:0; right:0;
+      z-index: 1000;
+      padding: 12px 14px;
+      background: rgba(7,9,11,.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,255,136,.10);
+      display:none;
+    }
+    header .top{
+      max-width: var(--max);
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .nav{
+      display:flex;
       gap: 10px;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      border-radius: 16px;
+      padding: 6px;
+      background: rgba(10,14,18,.35);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    .nav::-webkit-scrollbar{ display:none; }
+    .navBtn{
+      border:0;
+      background: transparent;
+      color: rgba(246,248,251,.72);
+      font-weight: 950;
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor:pointer;
+      white-space: nowrap;
+    }
+    .navBtn.active{
+      color: var(--neon);
+      background: rgba(0,255,136,.08);
+      border: 1px solid rgba(0,255,136,.16);
+      box-shadow: 0 0 18px rgba(0,255,136,.10);
+    }
+    .navBtn:focus-visible{ outline:none; box-shadow: var(--focus); }
+
+    .right{
+      margin-left:auto;
+      display:flex; gap:10px; align-items:center;
+    }
+    .search{
+      display:flex; align-items:center; gap:10px;
       padding: 10px 12px;
       border-radius: 14px;
       background: rgba(10,14,18,.55);
       border: 1px solid rgba(0,255,136,.10);
       box-shadow: 0 10px 25px rgba(0,0,0,.35);
-      max-width: 580px;
-      margin-left: auto;
+      max-width: 420px;
+      width: min(420px, 40vw);
     }
     .search input{
       width:100%;
       border:0; outline:none;
       background: transparent;
       color: var(--text);
-      font-size: .98rem;
+      font-size: .95rem;
     }
     .search input::placeholder{ color: rgba(246,248,251,.45); }
 
-    .cta{
-      display:flex; align-items:center; gap: 10px;
-      margin-left: auto;
-    }
-    .btn{
-      border: 1px solid rgba(0,255,136,.18);
-      background: linear-gradient(90deg, rgba(0,255,136,.92), rgba(0,210,106,.78));
-      color: #04110a;
-      padding: 10px 12px;
-      border-radius: 14px;
-      text-decoration:none;
-      font-weight: 950;
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      cursor:pointer;
-      user-select:none;
-      box-shadow: 0 14px 35px rgba(0,0,0,.45), 0 0 18px rgba(0,255,136,.12);
-      white-space: nowrap;
-    }
-    .btnGhost{
-      border: 1px solid rgba(246,248,251,.14);
-      background: rgba(10,14,18,.55);
-      color: rgba(246,248,251,.90);
-      box-shadow: 0 14px 35px rgba(0,0,0,.35);
-    }
-    .btnDanger{
-      border: 1px solid rgba(255,59,88,.25);
-      background: linear-gradient(90deg, rgba(255,59,88,.85), rgba(255,59,88,.55));
-      color: #130406;
-      box-shadow: 0 14px 35px rgba(0,0,0,.45), 0 0 18px rgba(255,59,88,.12);
-    }
-
-    .btn:focus-visible{ outline:none; box-shadow: var(--focus); }
-    .spacer{ height: 72px; }
-
+    main{ display:none; padding-top: 76px; }
     .wrap{
       max-width: var(--max);
       margin: 0 auto;
-      padding: 14px 14px 50px;
+      padding: 14px 14px 40px;
     }
 
-    .tabs{
-      display:flex;
-      gap: 18px;
-      align-items:center;
-      padding: 10px 6px 14px;
-      overflow-x:auto;
-      -webkit-overflow-scrolling: touch;
-    }
-    .tabs::-webkit-scrollbar{ display:none; }
-    .tab{
-      position: relative;
-      border:0;
-      background: transparent;
-      color: rgba(246,248,251,.70);
-      font-weight: 950;
-      font-size: 1.05rem;
-      padding: 10px 6px;
-      cursor:pointer;
-      white-space: nowrap;
-    }
-    .tab.active{
-      color: var(--neon);
-      text-shadow: 0 0 18px rgba(0,255,136,.22);
-    }
-    .tab.active::after{
-      content:"";
-      position:absolute;
-      left: 6px; right: 6px; bottom: 2px;
-      height: 3px;
-      border-radius: 999px;
-      background: var(--neon);
-      box-shadow: 0 0 16px rgba(0,255,136,.45);
-    }
-    .tab:focus-visible{ outline:none; box-shadow: var(--focus); border-radius: 10px; }
-
+    /* HERO */
     .hero{
-      border-radius: 24px;
+      border-radius: 26px;
       overflow:hidden;
-      min-height: 52vh;
+      min-height: 48vh;
       position: relative;
       background: #0e1114;
       border: 1px solid rgba(0,255,136,.10);
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow2);
       margin-bottom: 14px;
     }
     .heroBg{
@@ -203,47 +423,32 @@
       display:flex;
       flex-direction: column;
       justify-content: flex-end;
-      min-height: 52vh;
-      max-width: 720px;
+      min-height: 48vh;
+      max-width: 760px;
       gap: 10px;
-    }
-    .badge{
-      width: fit-content;
-      display:inline-flex;
-      align-items:center;
-      gap: 10px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(10,14,18,.55);
-      border: 1px solid rgba(0,255,136,.16);
-      color: rgba(246,248,251,.92);
-      font-weight: 950;
-    }
-    .badge i{
-      width: 8px; height: 8px; border-radius: 999px;
-      background: var(--neon);
-      box-shadow: 0 0 18px rgba(0,255,136,.75);
-      display:inline-block;
     }
     .heroTitle{
-      font-size: clamp(1.8rem, 4.4vw, 3.2rem);
+      font-size: clamp(1.8rem, 4vw, 3.1rem);
       font-weight: 950;
       line-height: 1.05;
       text-shadow: 0 18px 60px rgba(0,0,0,.65);
+      margin:0;
     }
     .heroDesc{
       color: rgba(246,248,251,.75);
       font-size: 1.02rem;
       line-height: 1.55;
-      max-width: 56ch;
+      max-width: 62ch;
+      margin:0;
     }
 
+    /* PROVIDERS */
     .provider{
       margin-top: 14px;
-      border-radius: 22px;
+      border-radius: 24px;
       background: rgba(10,14,18,.40);
       border: 1px solid rgba(0,255,136,.09);
-      box-shadow: 0 14px 45px rgba(0,0,0,.45);
+      box-shadow: var(--shadow2);
       overflow:hidden;
     }
     .providerTop{
@@ -252,18 +457,14 @@
       align-items:center;
       justify-content: space-between;
       gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
     }
     .providerTitle{
       display:flex;
       align-items:center;
       gap: 10px;
       font-weight: 950;
-      font-size: 1.15rem;
-    }
-    .providerTitle .dot{
-      width: 9px; height: 9px; border-radius: 999px;
-      background: var(--neon);
-      box-shadow: 0 0 18px rgba(0,255,136,.55);
+      font-size: 1.1rem;
     }
     .providerTitle .tag{
       margin-left: 6px;
@@ -275,26 +476,12 @@
       border: 1px solid rgba(246,248,251,.10);
       color: rgba(246,248,251,.78);
     }
-    .providerActions{
-      display:flex; align-items:center; gap:10px;
-    }
-    .linkAll{
-      border: 1px solid rgba(246,248,251,.10);
-      background: rgba(10,14,18,.55);
-      color: rgba(246,248,251,.85);
-      padding: 10px 12px;
-      border-radius: 14px;
-      font-weight: 900;
-      text-decoration:none;
-      user-select:none;
-      white-space: nowrap;
-    }
-    .linkAll:focus-visible{ outline:none; box-shadow: var(--focus); }
+    .providerActions{ display:flex; gap:10px; align-items:center; }
 
-    .row{ padding: 8px 14px 14px; }
+    .row{ padding: 10px 14px 14px; }
     .rowHead{
       display:flex;
-      align-items:center;
+      align-items:flex-end;
       justify-content: space-between;
       gap:10px;
       padding: 10px 0 8px;
@@ -335,15 +522,13 @@
       box-shadow: 0 18px 50px rgba(0,0,0,.70), 0 0 26px rgba(0,255,136,.12);
       z-index: 20;
     }
-    .card:focus-visible{ box-shadow: var(--focus), 0 18px 50px rgba(0,0,0,.70); }
-
     .card img{
       width:100%; height:100%;
       object-fit: cover;
       display:block;
       transform: scale(1.02);
+      background: rgba(255,255,255,.05);
     }
-
     .meta{
       position:absolute;
       left: 10px; right: 10px; bottom: 10px;
@@ -360,7 +545,6 @@
     }
     .card:hover .meta,
     .card:focus-visible .meta{ opacity:1; transform: translateY(0); }
-
     .metaTitle{
       font-weight: 950;
       font-size: .88rem;
@@ -377,19 +561,8 @@
       align-items:center;
       gap: 8px;
     }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: rgba(0,255,136,.14);
-      border: 1px solid rgba(0,255,136,.20);
-      font-weight: 950;
-      font-size: .74rem;
-      color: rgba(246,248,251,.92);
-      white-space: nowrap;
-    }
 
+    /* SKELETON */
     .skeleton{
       background: rgba(246,248,251,.06);
       border: 1px solid rgba(246,248,251,.08);
@@ -403,12 +576,9 @@
       transform: translateX(-60%);
       animation: shimmer 1.15s infinite;
     }
-    @keyframes shimmer{
-      0%{ transform: translateX(-60%); }
-      100%{ transform: translateX(60%); }
-    }
+    @keyframes shimmer{ 0%{ transform: translateX(-60%);} 100%{ transform: translateX(60%);} }
 
-    /* ===== PIN MODAL ===== */
+    /* MODAL PIN */
     .modalBack{
       position: fixed;
       inset: 0;
@@ -429,47 +599,26 @@
       -webkit-backdrop-filter: blur(10px);
       padding: 16px;
     }
-    .modal h3{ font-size: 1.1rem; font-weight: 950; }
-    .modal p{ margin-top: 8px; color: rgba(246,248,251,.7); line-height: 1.45; }
-    .pinRow{
-      margin-top: 12px;
-      display:flex;
-      gap: 10px;
-      align-items:center;
-    }
+    .modal h3{ margin:0; font-size: 1.1rem; font-weight: 950; }
+    .modal p{ margin:10px 0 0; color: rgba(246,248,251,.72); line-height: 1.45; }
+    .pinRow{ margin-top: 12px; display:flex; gap: 10px; align-items:center; }
     .pinRow input{
       flex:1;
-      padding: 12px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(246,248,251,.14);
-      background: rgba(7,9,11,.55);
-      color: var(--text);
-      outline:none;
-      font-size: 1.0rem;
-      letter-spacing: .18rem;
-      text-align: center;
+      text-align:center;
+      letter-spacing:.22rem;
+      font-weight: 950;
     }
-    .pinRow input:focus{ box-shadow: var(--focus); border-color: rgba(0,255,136,.35); }
-    .modalActions{
-      margin-top: 12px;
-      display:flex;
-      gap: 10px;
-      justify-content:flex-end;
-      flex-wrap: wrap;
-    }
-    .msg{
-      margin-top: 10px;
-      font-weight: 900;
-      color: rgba(246,248,251,.75);
-    }
-    .msg.err{ color: rgba(255,59,88,.95); }
+    .modalActions{ margin-top: 12px; display:flex; gap: 10px; justify-content:flex-end; flex-wrap: wrap; }
 
-    @media (max-width: 860px){
-      .cta{ display:none; }
-      .search{ max-width: none; }
+    @media (max-width: 980px){
+      .loginCard{ grid-template-columns: 1fr; }
+      .loginRight{ border-left: 0; border-top: 1px solid rgba(255,255,255,.06); }
+      .gridProfiles{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+      header .right .search{ display:none; }
+      .nav{ max-width: 58vw; }
       .card{ width: 135px; min-width: 135px; border-radius: 14px; }
-      .hero{ min-height: 46vh; }
-      .heroContent{ min-height: 46vh; }
+      .hero{ min-height: 44vh; }
+      .heroContent{ min-height: 44vh; }
     }
     @media (prefers-reduced-motion: reduce){
       *{ scroll-behavior:auto !important; }
@@ -479,400 +628,649 @@
 </head>
 
 <body>
-  <header>
-    <div class="top">
-      <div class="brand">
-        <div class="mark" aria-hidden="true"></div>
-        <div>
-          <div class="logo">CONSYSENCIA<span>PLAY</span></div>
-          <div class="sub">Organização UniTV • Premium</div>
+
+  <!-- LOGIN -->
+  <section id="loginView" class="login">
+    <div class="loginCard">
+      <div class="loginLeft">
+        <div class="brand">
+          <div class="mark" aria-hidden="true"></div>
+          <div>
+            <div class="logo">CONSYSENCIA<span>PLAY</span></div>
+            <div class="sub">Intuitivo como Netflix • Web + TV</div>
+          </div>
+        </div>
+
+        <div class="headline">
+          <h1 class="title">Sua plataforma premium <span>em um só lugar</span></h1>
+          <p>
+            Interface estilo streaming, com seções por app e categorias internas:
+            Netflix, Prime, HBO, Disney, Canais ao vivo e Zona 18+ (PIN).
+          </p>
+        </div>
+
+        <div class="badges">
+          <span class="pill"><span class="dot"></span> Perfis tipo Netflix</span>
+          <span class="pill"><span class="dot"></span> Busca global</span>
+          <span class="pill"><span class="dot"></span> Organizado por categorias</span>
+          <span class="pill"><span class="dot"></span> Visual Consysencia</span>
         </div>
       </div>
 
-      <div class="search" role="search" aria-label="Buscar">
-        <span style="opacity:.85">🔎</span>
-        <input id="q" type="text" placeholder="Pesquisar pelo título..." autocomplete="off" />
+      <div class="loginRight">
+        <h2 class="panelTitle">Entrar</h2>
+        <p class="panelSub">Template UI. Depois você integra com seu backend/API.</p>
+
+        <div class="field">
+          <label>Usuário</label>
+          <input id="user" placeholder="Digite seu usuário" autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <label>Senha</label>
+          <input id="pass" type="password" placeholder="••••••••" autocomplete="off" />
+        </div>
+
+        <div class="actions">
+          <button id="btnLogin" class="btn btnPrimary" type="button">Entrar</button>
+          <button id="btnClear" class="btn" type="button">Limpar</button>
+        </div>
+
+        <div id="loginMsg" class="msg"></div>
+        <div class="loginFine">
+          ✅ Dica: quando for “real”, login e perfil vêm do backend. Aqui é só layout/UX.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROFILES -->
+  <section id="profilesView" class="profiles hide">
+    <div class="profilesCard">
+      <div class="profilesTop">
+        <div class="brand">
+          <div class="mark"></div>
+          <div>
+            <div class="logo">CONSYSENCIA<span>PLAY</span></div>
+            <div class="sub" id="sessionInfo">Sessão ativa</div>
+          </div>
+        </div>
+        <button id="btnBackToLogin" class="btn" type="button">Sair</button>
       </div>
 
-      <div class="cta">
-        <a id="btnAssinar" class="btn" href="#" rel="nofollow">▶ Assinar Premium</a>
-        <button id="btnAdult" class="btn btnDanger" type="button">🔒 Zona 18+</button>
+      <div class="profilesBody">
+        <div class="profilesTitle">Quem está assistindo?</div>
+        <div class="profilesSub">Escolha seu perfil para personalizar a experiência.</div>
+
+        <div class="gridProfiles" id="profilesGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APP HEADER -->
+  <header id="appHeader">
+    <div class="top">
+      <div class="brand">
+        <div class="mark"></div>
+        <div>
+          <div class="logo">CONSYSENCIA<span>PLAY</span></div>
+          <div class="sub" id="whoami">Perfil: —</div>
+        </div>
+      </div>
+
+      <div class="nav" role="navigation" aria-label="Seções">
+        <button class="navBtn active" data-app="home">Home</button>
+        <button class="navBtn" data-app="netflix">Netflix</button>
+        <button class="navBtn" data-app="prime">Prime</button>
+        <button class="navBtn" data-app="hbo">HBO</button>
+        <button class="navBtn" data-app="disney">Disney</button>
+        <button class="navBtn" data-app="live">Canais</button>
+        <button class="navBtn" data-app="adult">18+</button>
+      </div>
+
+      <div class="right">
+        <div class="search">
+          🔎 <input id="q" placeholder="Buscar títulos..." autocomplete="off" />
+        </div>
+        <button id="btnSwitchProfile" class="btn" type="button">Perfis</button>
+        <button id="btnLogout" class="btn" type="button">Sair</button>
       </div>
     </div>
   </header>
 
-  <div class="spacer"></div>
-
-  <div class="wrap">
-
-    <div class="tabs" role="tablist" aria-label="Navegação">
-      <button class="tab active" data-tab="reco" role="tab" aria-selected="true">Recomendações</button>
-      <button class="tab" data-tab="filmes" role="tab" aria-selected="false">Filmes</button>
-      <button class="tab" data-tab="series" role="tab" aria-selected="false">Séries</button>
-      <button class="tab" data-tab="familia" role="tab" aria-selected="false">Família</button>
-    </div>
-
-    <section class="hero" aria-label="Destaque">
-      <div id="heroBg" class="heroBg"></div>
-      <div class="heroOverlay" aria-hidden="true"></div>
-      <div class="heroContent">
-        <div class="badge"><i></i> CONSYSENCIA • PREMIUM EXPERIENCE</div>
-        <h1 id="banner-title" class="heroTitle">Carregando...</h1>
-        <p id="banner-desc" class="heroDesc">Catálogo demonstrativo (TMDB) com layout UniTV. Clique para assinar e ativar.</p>
-      </div>
-    </section>
-
-    <!-- Providers -->
-    <div id="providers"></div>
-
-    <!-- Adult zone (locked) -->
-    <section class="provider" id="adult-zone" aria-label="Zona 18+" style="display:none; border-color: rgba(255,59,88,.20);">
-      <div class="providerTop">
-        <div class="providerTitle">
-          <span class="dot" style="background: var(--danger); box-shadow: 0 0 18px rgba(255,59,88,.55);"></span>
-          Zona 18+ <span class="tag">Restrito</span>
-        </div>
-        <div class="providerActions">
-          <a class="linkAll" href="#" id="adult-all" rel="nofollow">Ver todos</a>
-        </div>
-      </div>
-
-      <!-- Conteúdo neutro (apenas demonstração de área restrita) -->
-      <div class="row">
-        <div class="rowHead">
-          <div>
-            <div class="rowName">Conteúdo Restrito</div>
-            <div class="mini">Seção protegida por PIN (controle parental)</div>
+  <!-- APP -->
+  <main id="appView">
+    <div class="wrap">
+      <section class="hero">
+        <div class="heroBg" id="heroBg"></div>
+        <div class="heroOverlay"></div>
+        <div class="heroContent">
+          <div class="pill"><span class="dot"></span> <span id="heroBadge">Home</span></div>
+          <h1 class="heroTitle" id="heroTitle">ConsysenciaPlay</h1>
+          <p class="heroDesc" id="heroDesc">Layout premium organizado por apps e categorias internas.</p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button id="btnCTA" class="btn btnPrimary" type="button">Assinar / Renovar</button>
+            <button id="btnAdultUnlock" class="btn btnDanger" type="button">🔒 Desbloquear 18+</button>
           </div>
         </div>
-        <div id="adult-row" class="posters"></div>
+      </section>
+
+      <!-- Providers rendered here -->
+      <div id="content"></div>
+
+      <div style="margin-top:16px; color:rgba(246,248,251,.55); text-align:center;">
+        CONSYSENCIA<span style="color:var(--neon); font-weight:950;">PLAY</span> • UX estilo Netflix • Template
       </div>
-    </section>
-
-    <div style="margin-top:16px; color:rgba(246,248,251,.55); text-align:center;">
-      CONSYSENCIA<span style="color:var(--neon); font-weight:950;">PLAY</span> • Layout UniTV • TMDB Demo
     </div>
-  </div>
+  </main>
 
-  <!-- PIN Modal -->
+  <!-- PIN MODAL -->
   <div id="pinBack" class="modalBack" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
     <div class="modal">
-      <h3 id="pinTitle">🔒 Acesso restrito</h3>
-      <p>Digite o PIN para liberar a <strong>Zona 18+</strong>. (Sugestão: troque o PIN depois. 0000 é fraco.)</p>
-
+      <h3 id="pinTitle">🔒 Zona 18+ (controle parental)</h3>
+      <p>Digite o PIN para liberar. (Padrão do template: <strong>0000</strong>)</p>
       <div class="pinRow">
         <input id="pinInput" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" />
       </div>
-
       <div id="pinMsg" class="msg"></div>
-
       <div class="modalActions">
-        <button id="pinCancel" class="btn btnGhost" type="button">Cancelar</button>
+        <button id="pinCancel" class="btn" type="button">Cancelar</button>
         <button id="pinOk" class="btn btnDanger" type="button">Liberar</button>
       </div>
     </div>
   </div>
 
   <script>
-    // ========= CONFIG =========
-    const API_KEY = '7776b6307d414481ba1795a72e5db0d2';
-    const BASE_URL = 'https://api.themoviedb.org/3';
-    const IMG_URL = 'https://image.tmdb.org/t/p/w500';
-    const BANNER_IMG_URL = 'https://image.tmdb.org/t/p/original';
-    const LINK_VENDA = 'https://consysencia.com/product/uni-tv--mobile';
+    // =========================
+    // TEMPLATE CONFIG
+    // =========================
+    const ADULT_PIN = "0000";  // você pediu 0000
+    const STORE = {
+      session: "consysencia_session",
+      profile: "consysencia_profile",
+      adult: "consysencia_adult_unlocked"
+    };
 
-    // PIN (padrão conforme pedido)
-    const ADULT_PIN = '0000';
-    const ADULT_FLAG_KEY = 'consysencia_adult_unlocked'; // sessionStorage
+    // Poster demo (sem depender de TMDB)
+    const PLACEHOLDER_POSTER = (seed) =>
+      `https://picsum.photos/seed/${encodeURIComponent(seed)}/360/540`;
 
-    // CTA
-    document.getElementById('btnAssinar').href = LINK_VENDA;
-    document.getElementById('adult-all').href = LINK_VENDA;
+    // =========================
+    // DEMO DATA (trocar depois por sua API)
+    // Cada app tem categorias internas (rows)
+    // =========================
+    const CATALOG = {
+      home: [
+        { title: "Continuar assistindo", desc: "Seus itens recentes", items: demoItems("Home-Continue", 14) },
+        { title: "Top do momento", desc: "Seleção premium", items: demoItems("Home-Top", 18) },
+        { title: "Recomendados para você", desc: "Baseado no seu perfil", items: demoItems("Home-Reco", 18) },
+      ],
+      netflix: [
+        { title: "Recomendados Netflix", desc: "Novidades e destaques", items: demoItems("Netflix-Reco", 18) },
+        { title: "Filmes Netflix", desc: "Ação e aventura", items: demoItems("Netflix-Filmes", 18) },
+        { title: "Séries Netflix", desc: "Para maratonar", items: demoItems("Netflix-Series", 18) },
+        { title: "Família Netflix", desc: "Para todos", items: demoItems("Netflix-Familia", 18) },
+      ],
+      prime: [
+        { title: "Destaques Prime", desc: "Originals", items: demoItems("Prime-Reco", 18) },
+        { title: "Filmes Prime", desc: "Suspense", items: demoItems("Prime-Filmes", 18) },
+        { title: "Séries Prime", desc: "Top séries", items: demoItems("Prime-Series", 18) },
+        { title: "Família Prime", desc: "Aventura", items: demoItems("Prime-Familia", 18) },
+      ],
+      hbo: [
+        { title: "Em alta HBO", desc: "Prestígio", items: demoItems("HBO-Reco", 18) },
+        { title: "Filmes HBO", desc: "Drama / Crime", items: demoItems("HBO-Filmes", 18) },
+        { title: "Séries HBO", desc: "Aclamadas", items: demoItems("HBO-Series", 18) },
+        { title: "Família HBO", desc: "Fantasia", items: demoItems("HBO-Familia", 18) },
+      ],
+      disney: [
+        { title: "Destaques Disney+", desc: "Família", items: demoItems("Disney-Reco", 18) },
+        { title: "Filmes Disney+", desc: "Aventura", items: demoItems("Disney-Filmes", 18) },
+        { title: "Séries Disney+", desc: "Populares", items: demoItems("Disney-Series", 18) },
+        { title: "Animações", desc: "Para crianças", items: demoItems("Disney-Familia", 18) },
+      ],
+      live: [
+        { title: "Canais • Notícias", desc: "Ao vivo", items: demoItems("Live-News", 18, "CANAL") },
+        { title: "Canais • Esportes", desc: "Ao vivo", items: demoItems("Live-Sports", 18, "CANAL") },
+        { title: "Canais • Filmes", desc: "Ao vivo", items: demoItems("Live-Movies", 18, "CANAL") },
+      ],
+      adult: [
+        { title: "Zona 18+ • Destaques", desc: "Restrito", items: demoItems("Adult-Top", 18) },
+        { title: "Zona 18+ • Categorias", desc: "Restrito", items: demoItems("Adult-Cats", 18) },
+      ]
+    };
 
-    // ========= HELPERS =========
-    const clampText = (txt, n=165) => (txt && txt.length > n ? (txt.slice(0,n).trim() + '…') : (txt || ''));
-    const safeTitle = (it) => (it && (it.title || it.name)) ? (it.title || it.name) : 'Título';
-    const vote = (it) => (it && typeof it.vote_average === 'number' && it.vote_average > 0) ? (Math.round(it.vote_average*10)/10).toFixed(1) : null;
+    function demoItems(seed, n, prefix="TÍTULO"){
+      const out = [];
+      for(let i=1;i<=n;i++){
+        out.push({
+          id: `${seed}-${i}`,
+          name: `${prefix} ${i}`,
+          poster: PLACEHOLDER_POSTER(`${seed}-${i}`),
+          meta: "Clique para abrir"
+        });
+      }
+      return out;
+    }
+
+    // =========================
+    // DOM
+    // =========================
+    const $ = (s) => document.querySelector(s);
+
+    const loginView = $("#loginView");
+    const profilesView = $("#profilesView");
+    const appHeader = $("#appHeader");
+    const appView = $("#appView");
+
+    const heroBg = $("#heroBg");
+    const heroBadge = $("#heroBadge");
+    const heroTitle = $("#heroTitle");
+    const heroDesc = $("#heroDesc");
+
+    const content = $("#content");
+
+    const q = $("#q");
+    const whoami = $("#whoami");
+    const sessionInfo = $("#sessionInfo");
+
+    const pinBack = $("#pinBack");
+    const pinInput = $("#pinInput");
+    const pinMsg = $("#pinMsg");
+
+    // =========================
+    // SESSION
+    // =========================
+    function setSession(obj){ localStorage.setItem(STORE.session, JSON.stringify(obj)); }
+    function getSession(){ try { return JSON.parse(localStorage.getItem(STORE.session)||"null"); } catch { return null; } }
+    function clearSession(){
+      localStorage.removeItem(STORE.session);
+      localStorage.removeItem(STORE.profile);
+      sessionStorage.removeItem(STORE.adult);
+    }
+
+    function setProfile(p){ localStorage.setItem(STORE.profile, JSON.stringify(p)); }
+    function getProfile(){ try { return JSON.parse(localStorage.getItem(STORE.profile)||"null"); } catch { return null; } }
+
+    function adultUnlocked(){ return sessionStorage.getItem(STORE.adult) === "1"; }
+    function unlockAdult(){ sessionStorage.setItem(STORE.adult, "1"); }
+
+    // =========================
+    // LOGIN
+    // =========================
+    $("#btnClear").addEventListener("click", () => {
+      $("#user").value = "";
+      $("#pass").value = "";
+      $("#loginMsg").textContent = "";
+      $("#loginMsg").className = "msg";
+    });
+
+    $("#btnLogin").addEventListener("click", () => {
+      const user = ($("#user").value || "").trim();
+      const pass = ($("#pass").value || "").trim();
+      if(!user || !pass){
+        $("#loginMsg").textContent = "Preencha usuário e senha.";
+        $("#loginMsg").className = "msg err";
+        return;
+      }
+
+      // UI-only: guarda sessão (depois você troca por API real)
+      setSession({ ok: true, user: "OK", at: Date.now() });
+
+      // Próximo passo: perfis
+      showProfiles();
+    });
+
+    $("#btnBackToLogin").addEventListener("click", () => {
+      clearSession();
+      showLogin();
+    });
+
+    $("#btnLogout").addEventListener("click", () => {
+      clearSession();
+      location.reload();
+    });
+
+    $("#btnSwitchProfile").addEventListener("click", () => {
+      showProfiles();
+    });
+
+    $("#btnCTA").addEventListener("click", () => {
+      // Troque pelo seu link
+      window.location.href = "https://consysencia.com/";
+    });
+
+    // =========================
+    // PROFILES
+    // =========================
+    const PROFILES = [
+      { id:"p1", name:"João", type:"Normal", emoji:"🟢" },
+      { id:"p2", name:"Kids", type:"Infantil", emoji:"🟡", kids:true },
+      { id:"p3", name:"Premium", type:"Normal", emoji:"⚡" },
+      { id:"p4", name:"Adulto", type:"Adulto", emoji:"🔴", adult:true }
+    ];
+
+    function renderProfiles(){
+      const grid = $("#profilesGrid");
+      grid.innerHTML = "";
+      PROFILES.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "profile";
+        card.tabIndex = 0;
+
+        if(p.kids){
+          const t = document.createElement("div");
+          t.className = "tagKids";
+          t.textContent = "Kids";
+          card.appendChild(t);
+        }
+        if(p.adult){
+          const t = document.createElement("div");
+          t.className = "tagAdult";
+          t.textContent = "18+";
+          card.appendChild(t);
+        }
+
+        const av = document.createElement("div");
+        av.className = "avatar";
+        av.textContent = p.emoji;
+
+        const name = document.createElement("div");
+        name.className = "pname";
+        name.textContent = p.name;
+
+        const type = document.createElement("div");
+        type.className = "ptype";
+        type.textContent = p.type;
+
+        card.appendChild(av);
+        card.appendChild(name);
+        card.appendChild(type);
+
+        const pick = () => {
+          setProfile(p);
+          enterApp();
+        };
+
+        card.addEventListener("click", pick);
+        card.addEventListener("keydown", (e)=>{ if(e.key==="Enter") pick(); });
+
+        grid.appendChild(card);
+      });
+    }
+
+    // =========================
+    // NAV / RENDER
+    // =========================
+    let currentApp = "home";
+
+    function setNav(app){
+      currentApp = app;
+
+      document.querySelectorAll(".navBtn").forEach(b => {
+        b.classList.toggle("active", b.dataset.app === app);
+      });
+
+      // Guard: 18+
+      if(app === "adult" && !adultUnlocked()){
+        openPin();
+        // volta pro home até liberar
+        currentApp = "home";
+        document.querySelectorAll(".navBtn").forEach(b => {
+          b.classList.toggle("active", b.dataset.app === "home");
+        });
+        renderApp("home");
+        return;
+      }
+
+      renderApp(app);
+    }
+
+    document.querySelectorAll(".navBtn").forEach(b => {
+      b.addEventListener("click", () => setNav(b.dataset.app));
+    });
+
+    if(q){
+      q.addEventListener("input", () => renderApp(currentApp));
+    }
+
+    function renderApp(app){
+      const prof = getProfile();
+      const term = (q?.value || "").trim().toLowerCase();
+
+      heroBadge.textContent = labelForApp(app);
+      heroTitle.textContent = titleForApp(app, prof);
+      heroDesc.textContent = descForApp(app, prof);
+
+      heroBg.style.backgroundImage =
+        `radial-gradient(900px 420px at 25% -5%, rgba(0,255,136,.18), rgba(0,0,0,0) 60%),
+         linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.65))`;
+
+      // Kids profile: esconde 18+ na prática (UI)
+      if(prof?.kids && app === "adult"){
+        setNav("home");
+        return;
+      }
+
+      const rows = CATALOG[app] || [];
+      content.innerHTML = "";
+
+      rows.forEach(row => {
+        const section = document.createElement("section");
+        section.className = "provider";
+
+        section.innerHTML = `
+          <div class="providerTop">
+            <div class="providerTitle"><span class="dot"></span> ${labelForApp(app)} <span class="tag">${escapeHtml(row.title)}</span></div>
+            <div class="providerActions">
+              <button class="btn" type="button">Ver todos</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="rowHead">
+              <div>
+                <div class="rowName">${escapeHtml(row.title)}</div>
+                <div class="mini">${escapeHtml(row.desc)}</div>
+              </div>
+            </div>
+            <div class="posters"></div>
+          </div>
+        `;
+
+        const posters = section.querySelector(".posters");
+
+        // filter by search
+        let items = row.items || [];
+        if(term){
+          items = items.filter(it =>
+            (it.name||"").toLowerCase().includes(term) ||
+            (row.title||"").toLowerCase().includes(term)
+          );
+        }
+
+        // render cards
+        if(!items.length){
+          const empty = document.createElement("div");
+          empty.style.color = "rgba(246,248,251,.65)";
+          empty.style.padding = "8px 2px 14px";
+          empty.textContent = "Nada encontrado.";
+          posters.appendChild(empty);
+        } else {
+          items.forEach(it => posters.appendChild(makeCard(it)));
+        }
+
+        content.appendChild(section);
+      });
+    }
 
     function makeCard(it){
-      const b = document.createElement('button');
-      b.className = 'card';
-      b.type = 'button';
-      b.setAttribute('aria-label', safeTitle(it));
-      b.title = safeTitle(it);
-      b.addEventListener('click', () => window.location.href = LINK_VENDA);
+      const b = document.createElement("button");
+      b.className = "card";
+      b.type = "button";
+      b.title = it.name || "Título";
+      b.setAttribute("aria-label", it.name || "Título");
 
-      const img = document.createElement('img');
-      img.loading = 'lazy';
-      img.alt = safeTitle(it);
-      img.src = it.poster_path ? `${IMG_URL}${it.poster_path}` : '';
-      b.appendChild(img);
+      const img = document.createElement("img");
+      img.loading = "lazy";
+      img.alt = it.name || "Título";
+      img.src = it.poster || "";
 
-      const meta = document.createElement('div');
-      meta.className = 'meta';
+      const meta = document.createElement("div");
+      meta.className = "meta";
 
-      const t = document.createElement('div');
-      t.className = 'metaTitle';
-      t.textContent = safeTitle(it);
+      const t = document.createElement("div");
+      t.className = "metaTitle";
+      t.textContent = it.name || "Título";
 
-      const sub = document.createElement('div');
-      sub.className = 'metaSub';
-
-      const pill = document.createElement('span');
-      pill.className = 'pill';
-      pill.textContent = vote(it) ? `★ ${vote(it)}` : 'Premium';
-
-      const hint = document.createElement('span');
-      hint.textContent = 'Clique para assinar';
-
-      sub.appendChild(pill);
-      sub.appendChild(hint);
+      const sub = document.createElement("div");
+      sub.className = "metaSub";
+      sub.innerHTML = `<span class="pill"><span class="dot"></span> Abrir</span><span>${escapeHtml(it.meta || "Clique")}</span>`;
 
       meta.appendChild(t);
       meta.appendChild(sub);
 
+      b.appendChild(img);
       b.appendChild(meta);
+
+      // Ação: depois você abre player/modal detalhe
+      b.addEventListener("click", () => {
+        alert(`Abrir: ${it.name}\n\n(Depois você liga na parte técnica: player/episódios/canais.)`);
+      });
+
       return b;
     }
 
-    function renderSkeleton(container, count=10){
-      container.innerHTML = '';
-      for(let i=0;i<count;i++){
-        const s = document.createElement('div');
-        s.className = 'card skeleton';
-        container.appendChild(s);
+    function labelForApp(app){
+      if(app==="home") return "Home";
+      if(app==="netflix") return "Netflix";
+      if(app==="prime") return "Prime Video";
+      if(app==="hbo") return "HBO Max";
+      if(app==="disney") return "Disney+";
+      if(app==="live") return "Canais";
+      if(app==="adult") return "Zona 18+";
+      return "Catálogo";
+    }
+    function titleForApp(app, prof){
+      const p = prof?.name ? ` • ${prof.name}` : "";
+      if(app==="home") return `Recomendados${p}`;
+      if(app==="live") return `Canais ao Vivo${p}`;
+      if(app==="adult") return `Zona 18+${p}`;
+      return `${labelForApp(app)}${p}`;
+    }
+    function descForApp(app, prof){
+      if(prof?.kids){
+        return "Perfil Kids ativo: conteúdo filtrado e interface segura.";
       }
+      if(app==="home") return "Tudo organizado por aplicativos e categorias internas, estilo Netflix.";
+      if(app==="live") return "Canais por categoria (notícias, esportes, filmes...).";
+      if(app==="adult") return "Área restrita com PIN (controle parental).";
+      return "Categorias internas com fileiras horizontais. Visual Consysencia premium.";
     }
 
-    function renderRow(el, items){
-      el.innerHTML = '';
-      items.forEach(it=>{
-        if(it && it.poster_path) el.appendChild(makeCard(it));
-      });
-      const first = el.querySelector('.card');
-      if(first) first.tabIndex = 0;
+    function escapeHtml(s){
+      return String(s || "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
     }
 
-    async function fetchJson(url){
-      const res = await fetch(url, { cache: 'no-store' });
-      if(!res.ok) throw new Error('HTTP ' + res.status);
-      return await res.json();
-    }
-
-    // ========= TABS =========
-    const tabs = Array.from(document.querySelectorAll('.tab'));
-    function setTab(key){
-      tabs.forEach(t=>{
-        const on = t.dataset.tab === key;
-        t.classList.toggle('active', on);
-        t.setAttribute('aria-selected', on ? 'true' : 'false');
-      });
-
-      document.querySelectorAll('.tabPanel').forEach(p=>{
-        p.style.display = (p.dataset.panel === key) ? '' : 'none';
-      });
-    }
-    tabs.forEach(t => t.addEventListener('click', () => setTab(t.dataset.tab)));
-
-    // ========= BUSCA LOCAL =========
-    document.getElementById('q').addEventListener('input', (e)=>{
-      const q = (e.target.value || '').trim().toLowerCase();
-      document.querySelectorAll('.card').forEach(card=>{
-        const title = (card.getAttribute('aria-label') || '').toLowerCase();
-        card.style.display = (!q || title.includes(q)) ? '' : 'none';
-      });
-    });
-
-    // ========= PROVIDERS BUILDER =========
-    const providersRoot = document.getElementById('providers');
-
-    // OBS: Para “filtrar por provedor real (Netflix/Prime/etc)” via TMDB precisa de IDs de provedores (watch/providers).
-    // Para não travar agora, estou organizando por SEÇÕES com dados diferentes (trending/genres/tv/etc) — layout fica perfeito.
-    // Se você quiser “proveedor real”, eu adapto depois com os IDs.
-    const PROVIDERS = [
-      { key:'netflix', name:'Netflix', tag:'Popular', rows:[
-        { panel:'reco',  title:'Recomendados',  desc:'Top picks e novidades',     fetch: () => `${BASE_URL}/trending/all/day?api_key=${API_KEY}&language=pt-BR` },
-        { panel:'filmes',title:'Filmes em Alta',desc:'Ação / Blockbusters',      fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=28&language=pt-BR` },
-        { panel:'series',title:'Séries',        desc:'Popular agora',            fetch: () => `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=pt-BR` },
-        { panel:'familia',title:'Família',      desc:'Animações e diversão',     fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=16&language=pt-BR` },
-      ]},
-      { key:'prime', name:'Prime Video', tag:'Originals', rows:[
-        { panel:'reco',  title:'Destaques',     desc:'Seleção premium',          fetch: () => `${BASE_URL}/trending/movie/day?api_key=${API_KEY}&language=pt-BR` },
-        { panel:'filmes',title:'Filmes',        desc:'Suspense / Ação',          fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=53&language=pt-BR` },
-        { panel:'series',title:'Séries',        desc:'Top séries',               fetch: () => `${BASE_URL}/tv/top_rated?api_key=${API_KEY}&language=pt-BR` },
-        { panel:'familia',title:'Para todos',   desc:'Aventura / Família',       fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=12&language=pt-BR` },
-      ]},
-      { key:'hbo', name:'HBO Max', tag:'Prestígio', rows:[
-        { panel:'reco',  title:'Em alta',       desc:'Tendência agora',          fetch: () => `${BASE_URL}/trending/tv/day?api_key=${API_KEY}&language=pt-BR` },
-        { panel:'filmes',title:'Filmes',        desc:'Drama / Crime',            fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=80&language=pt-BR` },
-        { panel:'series',title:'Séries',        desc:'Séries aclamadas',         fetch: () => `${BASE_URL}/tv/airing_today?api_key=${API_KEY}&language=pt-BR` },
-        { panel:'familia',title:'Família',      desc:'Fantasia e aventura',      fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=14&language=pt-BR` },
-      ]},
-      { key:'disney', name:'Disney+', tag:'Família', rows:[
-        { panel:'reco',  title:'Destaques',     desc:'Top do momento',           fetch: () => `${BASE_URL}/trending/all/week?api_key=${API_KEY}&language=pt-BR` },
-        { panel:'filmes',title:'Filmes',        desc:'Aventura / Fantasia',      fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=14&language=pt-BR` },
-        { panel:'series',title:'Séries',        desc:'Populares',                fetch: () => `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=pt-BR&page=2` },
-        { panel:'familia',title:'Animações',    desc:'Para toda a família',      fetch: () => `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=16&language=pt-BR&page=2` },
-      ]},
-    ];
-
-    function buildProviderSection(p){
-      const section = document.createElement('section');
-      section.className = 'provider';
-      section.id = `provider-${p.key}`;
-      section.setAttribute('aria-label', p.name);
-
-      section.innerHTML = `
-        <div class="providerTop">
-          <div class="providerTitle"><span class="dot"></span> ${p.name} <span class="tag">${p.tag}</span></div>
-          <div class="providerActions">
-            <a class="linkAll" href="${LINK_VENDA}" rel="nofollow">Ver todos</a>
-          </div>
-        </div>
-      `;
-
-      p.rows.forEach(r=>{
-        const row = document.createElement('div');
-        row.className = 'row tabPanel';
-        row.dataset.panel = r.panel;
-        row.style.display = (r.panel === 'reco') ? '' : 'none';
-
-        const postersId = `${p.key}-${r.panel}`;
-
-        row.innerHTML = `
-          <div class="rowHead">
-            <div>
-              <div class="rowName">${r.title}</div>
-              <div class="mini">${r.desc}</div>
-            </div>
-          </div>
-          <div id="${postersId}" class="posters"></div>
-        `;
-
-        section.appendChild(row);
-
-        // skeleton now
-        renderSkeleton(row.querySelector('.posters'), 10);
-
-        // load later
-        r._postersId = postersId;
-      });
-
-      return section;
-    }
-
-    PROVIDERS.forEach(p => providersRoot.appendChild(buildProviderSection(p)));
-
-    // ========= ZONA 18+ (locked) =========
-    const adultZone = document.getElementById('adult-zone');
-    const adultRow  = document.getElementById('adult-row');
-
-    function isAdultUnlocked(){
-      return sessionStorage.getItem(ADULT_FLAG_KEY) === '1';
-    }
-    function setAdultUnlocked(){
-      sessionStorage.setItem(ADULT_FLAG_KEY, '1');
-      adultZone.style.display = '';
-    }
-
-    // Modal controls
-    const pinBack = document.getElementById('pinBack');
-    const pinInput = document.getElementById('pinInput');
-    const pinMsg = document.getElementById('pinMsg');
-
+    // =========================
+    // ADULT PIN
+    // =========================
     function openPin(){
-      pinMsg.textContent = '';
-      pinMsg.className = 'msg';
-      pinInput.value = '';
-      pinBack.style.display = 'flex';
+      pinMsg.textContent = "";
+      pinMsg.className = "msg";
+      pinInput.value = "";
+      pinBack.style.display = "flex";
       setTimeout(()=>pinInput.focus(), 50);
     }
-    function closePin(){
-      pinBack.style.display = 'none';
-    }
+    function closePin(){ pinBack.style.display = "none"; }
     function tryPin(){
-      const v = (pinInput.value || '').trim();
+      const v = (pinInput.value || "").trim();
       if(v === ADULT_PIN){
-        setAdultUnlocked();
+        unlockAdult();
         closePin();
-      }else{
-        pinMsg.textContent = 'PIN incorreto.';
-        pinMsg.className = 'msg err';
+        // agora entra na área
+        currentApp = "adult";
+        document.querySelectorAll(".navBtn").forEach(b => {
+          b.classList.toggle("active", b.dataset.app === "adult");
+        });
+        renderApp("adult");
+      } else {
+        pinMsg.textContent = "PIN incorreto.";
+        pinMsg.className = "msg err";
       }
     }
 
-    document.getElementById('btnAdult').addEventListener('click', ()=>{
-      if(isAdultUnlocked()){
-        adultZone.style.display = '';
-        adultZone.scrollIntoView({ behavior:'smooth', block:'start' });
-      }else{
-        openPin();
-      }
+    $("#pinCancel").addEventListener("click", closePin);
+    $("#pinOk").addEventListener("click", tryPin);
+    pinInput.addEventListener("keydown", (e)=>{
+      if(e.key==="Enter") tryPin();
+      if(e.key==="Escape") closePin();
     });
-    document.getElementById('pinCancel').addEventListener('click', closePin);
-    document.getElementById('pinOk').addEventListener('click', tryPin);
-    pinInput.addEventListener('keydown', (e)=>{
-      if(e.key === 'Enter') tryPin();
-      if(e.key === 'Escape') closePin();
-    });
-    pinBack.addEventListener('click', (e)=>{
-      if(e.target === pinBack) closePin();
-    });
+    pinBack.addEventListener("click", (e)=>{ if(e.target===pinBack) closePin(); });
 
-    // ========= LOAD DATA =========
-    async function loadHero(){
-      try{
-        const trending = await fetchJson(`${BASE_URL}/trending/all/day?api_key=${API_KEY}&language=pt-BR`);
-        const list = trending?.results || [];
-        const destaque = list[0];
+    $("#btnAdultUnlock").addEventListener("click", openPin);
 
-        if(destaque?.backdrop_path){
-          document.getElementById('heroBg').style.backgroundImage =
-            `url(${BANNER_IMG_URL}${destaque.backdrop_path})`;
-        }
-        document.getElementById('banner-title').innerText = safeTitle(destaque);
-        document.getElementById('banner-desc').innerText =
-          clampText(destaque?.overview || 'Layout premium Consysencia. Clique para assinar e ativar.', 170);
-      }catch(err){
-        console.error('Hero error', err);
-        document.getElementById('banner-title').innerText = 'ConsysenciaPlay Premium';
-        document.getElementById('banner-desc').innerText = 'Catálogo indisponível. Clique para assinar.';
+    // =========================
+    // VIEW SWITCHERS
+    // =========================
+    function showLogin(){
+      loginView.classList.remove("hide");
+      profilesView.classList.add("hide");
+      appHeader.style.display = "none";
+      appView.style.display = "none";
+    }
+
+    function showProfiles(){
+      loginView.classList.add("hide");
+      profilesView.classList.remove("hide");
+      appHeader.style.display = "none";
+      appView.style.display = "none";
+
+      const s = getSession();
+      sessionInfo.textContent = s ? "Sessão ativa" : "Sessão";
+      renderProfiles();
+    }
+
+    function enterApp(){
+      loginView.classList.add("hide");
+      profilesView.classList.add("hide");
+      appHeader.style.display = "";
+      appView.style.display = "";
+
+      const prof = getProfile();
+      whoami.textContent = prof ? `Perfil: ${prof.name} • ${prof.type}` : "Perfil: —";
+
+      // Kids: trava adult sempre
+      if(prof?.kids){
+        sessionStorage.removeItem(STORE.adult);
       }
+
+      // Default to Home
+      currentApp = "home";
+      document.querySelectorAll(".navBtn").forEach(b => {
+        b.classList.toggle("active", b.dataset.app === "home");
+      });
+
+      renderApp("home");
     }
 
-    async function loadProviders(){
-      const jobs = [];
-      for(const p of PROVIDERS){
-        for(const r of p.rows){
-          const el = document.getElementById(r._postersId);
-          if(!el) continue;
-
-          const job = fetchJson(r.fetch())
-            .then(d => renderRow(el, (d?.results || []).slice(0, 20)))
-            .catch(e => { console.error(p.key, r.panel, e); el.innerHTML=''; });
-
-          jobs.push(job);
-        }
-      }
-      await Promise.allSettled(jobs);
-    }
-
-    async function loadAdultDemo(){
-      // Aqui é só DEMO de “área restrita”: vou usar resultados genéricos do TMDB.
-      // Você pode trocar depois por seu catálogo real.
-      renderSkeleton(adultRow, 10);
-      fetchJson(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=10749&language=pt-BR`) // Romance (neutro)
-        .then(d => renderRow(adultRow, (d?.results || []).slice(0, 20)))
-        .catch(e => { console.error('adult demo', e); adultRow.innerHTML=''; });
-    }
-
-    // On boot
+    // =========================
+    // BOOT
+    // =========================
     (function init(){
-      // se já desbloqueou nessa sessão, mostra
-      if(isAdultUnlocked()) adultZone.style.display = '';
-      loadHero();
-      loadProviders();
-      loadAdultDemo();
+      const s = getSession();
+      const p = getProfile();
+      if(s && p){
+        enterApp();
+      }else if(s && !p){
+        showProfiles();
+      }else{
+        showLogin();
+      }
     })();
   </script>
 </body>
