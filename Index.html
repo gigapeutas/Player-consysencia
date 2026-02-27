@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consysencia - Catálogo Premium</title>
+    <style>
+        /* Visual Estilo Plataforma de Streaming */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #141414; /* Fundo escuro padrão */
+            color: white;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Banner Principal */
+        .hero {
+            height: 70vh;
+            background-size: cover;
+            background-position: center top;
+            display: flex;
+            align-items: flex-end;
+            padding: 40px;
+            /* Degradê para misturar o banner com o fundo */
+            box-shadow: inset 0px -150px 100px -10px #141414; 
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .btn-comprar {
+            background-color: #e50914; /* Vermelho chamativo */
+            color: white;
+            padding: 10px 24px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .btn-comprar:hover {
+            background-color: #f40612;
+        }
+
+        /* Fileiras de Filmes */
+        .row-container {
+            padding: 20px 40px;
+        }
+
+        .row-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .posters-row {
+            display: flex;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 20px 0;
+            scroll-behavior: smooth;
+        }
+
+        /* Esconde a barra de rolagem mas mantém a função */
+        .posters-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .poster {
+            width: 150px;
+            margin-right: 10px;
+            border-radius: 4px;
+            transition: transform 450ms; /* Efeito suave de zoom */
+            cursor: pointer;
+        }
+
+        .poster:hover {
+            transform: scale(1.08); /* Aumenta a capa ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="banner" class="hero" style="background-image: url('https://via.placeholder.com/1200x600?text=Carregando+Destaque...');">
+        <div class="hero-content">
+            <h1 id="banner-title">Carregando...</h1>
+            <a href="https://consysencia.com/produto/unitv" class="btn-comprar">▶ Adquirir Acesso Premium</a>
+        </div>
+    </div>
+
+    <div class="row-container">
+        <h2 class="row-title">Em Alta Hoje</h2>
+        <div id="trending-row" class="posters-row">
+            </div>
+    </div>
+
+    <script>
+        // === ATENÇÃO: COLE SUA CHAVE DO TMDB ABAIXO ===
+        const API_KEY = 'SUA_CHAVE_AQUI'; 
+        // ==============================================
+
+        const BASE_URL = 'https://api.themoviedb.org/3';
+        const IMG_URL = 'https://image.tmdb.org/t/p/w500';
+        const BANNER_IMG_URL = 'https://image.tmdb.org/t/p/original';
+
+        // Função para buscar e mostrar os filmes Em Alta
+        async function getTrending() {
+            if (API_KEY === 'SUA_CHAVE_AQUI') {
+                document.getElementById('banner-title').innerText = "Coloque sua API KEY no código!";
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BASE_URL}/trending/all/day?api_key=${API_KEY}&language=pt-BR`);
+                const data = await response.json();
+                
+                // Configura o Banner com o primeiro filme da lista
+                const filmeDestaque = data.results[0];
+                document.getElementById('banner').style.backgroundImage = `url(${BANNER_IMG_URL}${filmeDestaque.backdrop_path})`;
+                document.getElementById('banner-title').innerText = filmeDestaque.title || filmeDestaque.name;
+
+                // Preenche a fileira com o resto dos filmes
+                const row = document.getElementById('trending-row');
+                data.results.forEach(filme => {
+                    if (filme.poster_path) {
+                        const img = document.createElement('img');
+                        img.src = `${IMG_URL}${filme.poster_path}`;
+                        img.className = 'poster';
+                        img.alt = filme.title || filme.name;
+                        
+                        // Quando clica na capa, manda para a sua página de vendas
+                        img.onclick = () => {
+                            window.location.href = "https://consysencia.com/produto/unitv";
+                        };
+                        
+                        row.appendChild(img);
+                    }
+                });
+            } catch (error) {
+                console.error("Erro ao puxar dados da API:", error);
+            }
+        }
+
+        // Executa a função quando a página carrega
+        getTrending();
+    </script>
+</body>
+</html>
