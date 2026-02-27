@@ -3,152 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consysencia - Catálogo Premium</title>
+    <title>Consysencia Premium - Catálogo</title>
     <style>
-        /* Visual Estilo Plataforma de Streaming */
+        /* === RESET E FONTES === */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #141414; /* Fundo escuro padrão */
-            color: white;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #0b0b0c; /* Fundo super escuro premium */
+            color: #ffffff;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             overflow-x: hidden;
         }
 
-        /* Banner Principal */
+        /* === BARRA DE NAVEGAÇÃO === */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 1.8rem; font-weight: 900; color: #00d2ff; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .logo span { color: #ffffff; }
+
+        /* === BANNER PRINCIPAL (HERO) === */
         .hero {
-            height: 70vh;
+            position: relative;
+            height: 85vh;
             background-size: cover;
             background-position: center top;
             display: flex;
             align-items: flex-end;
-            padding: 40px;
-            /* Degradê para misturar o banner com o fundo */
-            box-shadow: inset 0px -150px 100px -10px #141414; 
+            padding: 0 50px 80px 50px;
         }
-
-        .hero-content h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        /* Degradê para misturar o banner com o resto do site */
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 60%;
+            background: linear-gradient(to top, #0b0b0c 0%, rgba(11,11,12,0) 100%);
         }
-
-        .btn-comprar {
-            background-color: #e50914; /* Vermelho chamativo */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+        }
+        .hero-desc {
+            font-size: 1.1rem;
+            color: #d2d2d2;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            line-height: 1.5;
+        }
+        .btn-premium {
+            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
             color: white;
-            padding: 10px 24px;
+            padding: 14px 32px;
             font-size: 1.2rem;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
             text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
+        }
+        .btn-premium:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.6);
         }
 
-        .btn-comprar:hover {
-            background-color: #f40612;
-        }
-
-        /* Fileiras de Filmes */
-        .row-container {
-            padding: 20px 40px;
-        }
-
+        /* === FILEIRAS DE CATÁLOGO === */
+        .row-container { padding: 10px 50px 30px 50px; position: relative; z-index: 5; }
         .row-title {
             font-size: 1.4rem;
-            margin-bottom: 10px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #e5e5e5;
         }
-
         .posters-row {
             display: flex;
+            gap: 15px;
             overflow-x: auto;
             overflow-y: hidden;
             padding: 20px 0;
             scroll-behavior: smooth;
         }
-
         /* Esconde a barra de rolagem mas mantém a função */
-        .posters-row::-webkit-scrollbar {
-            display: none;
-        }
-
-        .poster {
-            width: 150px;
-            margin-right: 10px;
-            border-radius: 4px;
-            transition: transform 450ms; /* Efeito suave de zoom */
+        .posters-row::-webkit-scrollbar { display: none; }
+        
+        .poster-card {
+            min-width: 180px;
+            border-radius: 8px;
+            overflow: hidden;
             cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .poster-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        /* Efeito Netflix no Hover */
+        .poster-card:hover {
+            transform: scale(1.1) translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+            z-index: 20;
+            border: 2px solid #00d2ff;
         }
 
-        .poster:hover {
-            transform: scale(1.08); /* Aumenta a capa ao passar o mouse */
+        /* Responsividade para celular */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .hero { padding: 0 20px 40px 20px; height: 75vh; }
+            .hero-title { font-size: 2.2rem; }
+            .row-container { padding: 10px 20px 20px 20px; }
+            .poster-card { min-width: 130px; }
         }
     </style>
 </head>
 <body>
 
-    <div id="banner" class="hero" style="background-image: url('https://via.placeholder.com/1200x600?text=Carregando+Destaque...');">
+    <header>
+        <div class="logo">CONSYSENCIA<span>PLAY</span></div>
+    </header>
+
+    <div id="banner" class="hero" style="background-color: #111;">
         <div class="hero-content">
-            <h1 id="banner-title">Carregando...</h1>
-            <a href="https://consysencia.com/produto/unitv" class="btn-comprar">▶ Adquirir Acesso Premium</a>
+            <h1 id="banner-title">Carregando Novidades...</h1>
+            <p class="hero-desc" id="banner-desc">Os melhores lançamentos, séries exclusivas e canais ao vivo em um só lugar. Sem travamentos.</p>
+            <a href="https://consysencia.com/product/uni-tv--mobile" class="btn-premium">
+                ▶ Assinar Premium Agora
+            </a>
         </div>
     </div>
 
     <div class="row-container">
-        <h2 class="row-title">Em Alta Hoje</h2>
-        <div id="trending-row" class="posters-row">
-            </div>
+        <h2 class="row-title">Lançamentos em Alta</h2>
+        <div id="trending-row" class="posters-row"></div>
+    </div>
+
+    <div class="row-container">
+        <h2 class="row-title">Ação e Aventura</h2>
+        <div id="action-row" class="posters-row"></div>
+    </div>
+
+    <div class="row-container">
+        <h2 class="row-title">Séries para Maratonar</h2>
+        <div id="series-row" class="posters-row"></div>
+    </div>
+
+    <div class="row-container">
+        <h2 class="row-title">Para toda a Família</h2>
+        <div id="family-row" class="posters-row"></div>
     </div>
 
     <script>
-        // === ATENÇÃO: COLE SUA CHAVE DO TMDB ABAIXO ===
-        const API_KEY = 'SUA_CHAVE_AQUI'; 
-        // ==============================================
+        // === A SUA CHAVE DA API ===
+        const API_KEY = '7776b6307d414481ba1795a72e5db0d2';
+        // ==========================
 
         const BASE_URL = 'https://api.themoviedb.org/3';
         const IMG_URL = 'https://image.tmdb.org/t/p/w500';
         const BANNER_IMG_URL = 'https://image.tmdb.org/t/p/original';
+        
+        // O seu link de vendas (O destino de todos os cliques)
+        const LINK_VENDA = 'https://consysencia.com/product/uni-tv--mobile';
 
-        // Função para buscar e mostrar os filmes Em Alta
-        async function getTrending() {
-            if (API_KEY === 'SUA_CHAVE_AQUI') {
-                document.getElementById('banner-title').innerText = "Coloque sua API KEY no código!";
-                return;
-            }
+        // Função genérica para criar os pôsteres e jogar o cliente pra loja
+        function renderizarPosters(filmes, containerId) {
+            const container = document.getElementById(containerId);
+            filmes.forEach(item => {
+                if (item.poster_path) {
+                    const div = document.createElement('div');
+                    div.className = 'poster-card';
+                    div.onclick = () => window.location.href = LINK_VENDA; // O clique mágico
 
-            try {
-                const response = await fetch(`${BASE_URL}/trending/all/day?api_key=${API_KEY}&language=pt-BR`);
-                const data = await response.json();
-                
-                // Configura o Banner com o primeiro filme da lista
-                const filmeDestaque = data.results[0];
-                document.getElementById('banner').style.backgroundImage = `url(${BANNER_IMG_URL}${filmeDestaque.backdrop_path})`;
-                document.getElementById('banner-title').innerText = filmeDestaque.title || filmeDestaque.name;
+                    const img = document.createElement('img');
+                    img.src = `${IMG_URL}${item.poster_path}`;
+                    img.alt = item.title || item.name;
+                    img.loading = "lazy"; // Carrega rápido
 
-                // Preenche a fileira com o resto dos filmes
-                const row = document.getElementById('trending-row');
-                data.results.forEach(filme => {
-                    if (filme.poster_path) {
-                        const img = document.createElement('img');
-                        img.src = `${IMG_URL}${filme.poster_path}`;
-                        img.className = 'poster';
-                        img.alt = filme.title || filme.name;
-                        
-                        // Quando clica na capa, manda para a sua página de vendas
-                        img.onclick = () => {
-                            window.location.href = "https://consysencia.com/produto/unitv";
-                        };
-                        
-                        row.appendChild(img);
-                    }
-                });
-            } catch (error) {
-                console.error("Erro ao puxar dados da API:", error);
-            }
+                    div.appendChild(img);
+                    container.appendChild(div);
+                }
+            });
         }
 
-        // Executa a função quando a página carrega
-        getTrending();
+        // 1. Carregar Banner Principal e Em Alta
+        async function loadTrending() {
+            try {
+                const res = await fetch(`${BASE_URL}/trending/all/day?api_key=${API_KEY}&language=pt-BR`);
+                const data = await res.json();
+                
+                // Configura o Hero (Pega o 1º da lista)
+                const destaque = data.results[0];
+                document.getElementById('banner').style.backgroundImage = `url(${BANNER_IMG_URL}${destaque.backdrop_path})`;
+                document.getElementById('banner-title').innerText = destaque.title || destaque.name;
+                
+                if(destaque.overview) {
+                    // Corta o texto para não ficar gigante
+                    let sinopse = destaque.overview.substring(0, 150) + "...";
+                    document.getElementById('banner-desc').innerText = sinopse;
+                }
+
+                // O resto vai pra fileira "Em Alta"
+                renderizarPosters(data.results.slice(1), 'trending-row');
+            } catch (err) { console.error("Erro no Trending", err); }
+        }
+
+        // 2. Carregar Ação
+        async function loadAction() {
+            try {
+                const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=28&language=pt-BR`);
+                const data = await res.json();
+                renderizarPosters(data.results, 'action-row');
+            } catch (err) { console.error(err); }
+        }
+
+        // 3. Carregar Séries
+        async function loadSeries() {
+            try {
+                const res = await fetch(`${BASE_URL}/tv/popular?api_key=${API_KEY}&language=pt-BR`);
+                const data = await res.json();
+                renderizarPosters(data.results, 'series-row');
+            } catch (err) { console.error(err); }
+        }
+
+        // 4. Carregar Família/Animação
+        async function loadFamily() {
+            try {
+                const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=16&language=pt-BR`);
+                const data = await res.json();
+                renderizarPosters(data.results, 'family-row');
+            } catch (err) { console.error(err); }
+        }
+
+        // Executa tudo ao abrir a página
+        loadTrending();
+        loadAction();
+        loadSeries();
+        loadFamily();
     </script>
 </body>
 </html>
